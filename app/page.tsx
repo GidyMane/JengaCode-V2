@@ -39,7 +39,6 @@ export default function JengaCodeLanding() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [musicEnabled, setMusicEnabled] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [exploredZones, setExploredZones] = useState(new Set());
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string | null>(null);
   const [showEventSchedule, setShowEventSchedule] = useState(false);
@@ -139,10 +138,6 @@ export default function JengaCodeLanding() {
     { text: "I love the robot workshops!", author: "Sam, age 8" },
     { text: "JengaCode helped me start my own app!", author: "Jordan, age 16" },
   ];
-
-  const handleExploreZone = (zoneId: string) => {
-    setExploredZones((prev) => new Set([...prev, zoneId]));
-  };
 
   const closeModal = () => setActiveModal(null);
   const closeEventSchedule = () => setShowEventSchedule(false);
