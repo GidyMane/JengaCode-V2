@@ -8,6 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
+import {
   Rocket,
   Star,
   Play,
@@ -133,50 +140,8 @@ export default function JengaCodeLanding() {
     setExploredZones((prev) => new Set([...prev, zoneId]));
   };
 
-  const Modal = ({
-    isOpen,
-    onClose,
-    title,
-    children,
-  }: {
-    isOpen: boolean;
-    onClose: () => void;
-    title: string;
-    children: React.ReactNode;
-  }) => {
-    if (!isOpen) return null;
-
-    return (
-      <motion.div
-        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-      >
-        <motion.div
-          className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 max-w-4xl max-h-[90vh] overflow-y-auto border border-cyan-500/30"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              {title}
-            </h2>
-            <Button
-              onClick={onClose}
-              className="bg-red-500 hover:bg-red-600 text-white rounded-full w-10 h-10 p-0"
-            >
-              ✕
-            </Button>
-          </div>
-          {children}
-        </motion.div>
-      </motion.div>
-    );
-  };
+  const closeModal = () => setActiveModal(null);
+  const closeEventSchedule = () => setShowEventSchedule(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-cyan-500 text-white overflow-hidden relative">
@@ -327,27 +292,33 @@ export default function JengaCodeLanding() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.6 }}
           >
-            <Button
-              onClick={() => setActiveModal("about")}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-full"
-            >
-              <Brain className="mr-2 w-5 h-5" />
-              What Is JengaCode?
-            </Button>
-            <Button
-              onClick={() => setActiveModal("events")}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-3 rounded-full"
-            >
-              <Calendar className="mr-2 w-5 h-5" />
-              Upcoming Events
-            </Button>
-            <Button
-              onClick={() => setActiveModal("age-groups")}
-              className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-3 rounded-full"
-            >
-              <Users className="mr-2 w-5 h-5" />
-              Explore by Age
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                onClick={() => setActiveModal("about")}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
+              >
+                <Brain className="mr-2 w-5 h-5" />
+                What Is JengaCode?
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                onClick={() => setActiveModal("events")}
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+              >
+                <Calendar className="mr-2 w-5 h-5" />
+                Upcoming Events
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                onClick={() => setActiveModal("age-groups")}
+                className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-green-500/25 transition-all duration-300"
+              >
+                <Users className="mr-2 w-5 h-5" />
+                Explore by Age
+              </Button>
+            </motion.div>
           </motion.div>
         </section>
 
@@ -607,18 +578,48 @@ export default function JengaCodeLanding() {
           </div>
         </section>
 
-        {/* Easter Egg Rocket */}
+        {/* Interactive Rocket */}
         <motion.div
           className="fixed bottom-10 right-10 cursor-pointer z-40"
           whileHover={{ scale: 1.2, rotate: 15 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            // Trigger rocket animation
+            // Add fireworks effect
+            const fireworks = Array.from({ length: 6 }, (_, i) => (
+              <motion.div
+                key={`firework-${Date.now()}-${i}`}
+                className="fixed w-2 h-2 bg-yellow-400 rounded-full pointer-events-none"
+                style={{
+                  left: window.innerWidth - 120,
+                  top: window.innerHeight - 120,
+                }}
+                animate={{
+                  x: [0, (Math.random() - 0.5) * 200],
+                  y: [0, (Math.random() - 0.5) * 200],
+                  opacity: [1, 0],
+                  scale: [1, 0],
+                }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              />
+            ));
+
+            // Simple success notification
+            alert("🚀 Blast off! Welcome to the future of coding!");
           }}
         >
-          <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-red-500/50 transition-all duration-300">
+          <motion.div
+            className="w-16 h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-red-500/50 transition-all duration-300"
+            animate={{
+              boxShadow: [
+                "0 0 20px rgba(239, 68, 68, 0.5)",
+                "0 0 30px rgba(251, 191, 36, 0.7)",
+                "0 0 20px rgba(239, 68, 68, 0.5)",
+              ],
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             <Rocket className="w-8 h-8 text-white" />
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Parents & Mentors Footer */}
@@ -709,151 +710,196 @@ export default function JengaCodeLanding() {
             </div>
           </div>
         </footer>
-        {/* Modals */}
-        <AnimatePresence>
-          {activeModal === "about" && (
-            <Modal
-              key="about-modal"
-              isOpen={true}
-              onClose={() => setActiveModal(null)}
-              title="What Is JengaCode?"
-            >
-              <div className="text-white space-y-6">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center border-4 border-cyan-300">
-                    <span className="text-white font-bold text-3xl">
-                      {"<J>"}
-                    </span>
-                  </div>
+        {/* Modals using Radix UI Dialog */}
+        <Dialog
+          open={activeModal === "about"}
+          onOpenChange={(open) => !open && closeModal()}
+        >
+          <DialogContent className="bg-gradient-to-br from-slate-800 to-slate-700 border-cyan-500/30 max-w-4xl max-h-[90vh] overflow-y-auto text-white">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                What Is JengaCode?
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-20 h-20 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center border-4 border-cyan-300">
+                  <span className="text-white font-bold text-3xl">{"<J>"}</span>
                 </div>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  JengaCode is a revolutionary tech and innovation hub designed
-                  specifically for young minds aged 5 to 17. We believe that
-                  every child has the potential to be a creator, innovator, and
-                  problem-solver.
-                </p>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-gradient-to-br from-purple-600/20 to-purple-700/20 p-6 rounded-xl border border-purple-500/30">
-                    <h3 className="text-xl font-bold text-purple-300 mb-3">
-                      Our Mission
-                    </h3>
-                    <p className="text-gray-300">
-                      To empower the next generation with coding skills,
-                      creative thinking, and technological literacy through
-                      hands-on learning experiences.
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-br from-cyan-600/20 to-cyan-700/20 p-6 rounded-xl border border-cyan-500/30">
-                    <h3 className="text-xl font-bold text-cyan-300 mb-3">
-                      Our Vision
-                    </h3>
-                    <p className="text-gray-300">
-                      A world where every young person has the tools and
-                      confidence to shape the future through technology and
-                      innovation.
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-6 rounded-xl border border-yellow-500/30">
-                  <h3 className="text-xl font-bold text-yellow-300 mb-3">
-                    What Makes Us Special
+              </div>
+              <p className="text-lg text-gray-300 leading-relaxed">
+                JengaCode is a revolutionary tech and innovation hub designed
+                specifically for young minds aged 5 to 17. We believe that every
+                child has the potential to be a creator, innovator, and
+                problem-solver.
+              </p>
+              <div className="grid md:grid-cols-2 gap-6">
+                <motion.div
+                  className="bg-gradient-to-br from-purple-600/20 to-purple-700/20 p-6 rounded-xl border border-purple-500/30"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h3 className="text-xl font-bold text-purple-300 mb-3">
+                    Our Mission
                   </h3>
-                  <ul className="text-gray-300 space-y-2">
-                    <li>• Age-appropriate curriculum for every skill level</li>
-                    <li>• Hands-on projects with real-world applications</li>
-                    <li>• Expert mentors and industry professionals</li>
-                    <li>
-                      • Safe, inclusive, and inspiring learning environment
-                    </li>
-                    <li>
-                      • Community of young innovators supporting each other
-                    </li>
-                  </ul>
-                </div>
+                  <p className="text-gray-300">
+                    To empower the next generation with coding skills, creative
+                    thinking, and technological literacy through hands-on
+                    learning experiences.
+                  </p>
+                </motion.div>
+                <motion.div
+                  className="bg-gradient-to-br from-cyan-600/20 to-cyan-700/20 p-6 rounded-xl border border-cyan-500/30"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h3 className="text-xl font-bold text-cyan-300 mb-3">
+                    Our Vision
+                  </h3>
+                  <p className="text-gray-300">
+                    A world where every young person has the tools and
+                    confidence to shape the future through technology and
+                    innovation.
+                  </p>
+                </motion.div>
               </div>
-            </Modal>
-          )}
+              <motion.div
+                className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-6 rounded-xl border border-yellow-500/30"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <h3 className="text-xl font-bold text-yellow-300 mb-3">
+                  What Makes Us Special
+                </h3>
+                <ul className="text-gray-300 space-y-2">
+                  <li>• Age-appropriate curriculum for every skill level</li>
+                  <li>• Hands-on projects with real-world applications</li>
+                  <li>• Expert mentors and industry professionals</li>
+                  <li>• Safe, inclusive, and inspiring learning environment</li>
+                  <li>• Community of young innovators supporting each other</li>
+                </ul>
+              </motion.div>
+            </div>
+          </DialogContent>
+        </Dialog>
 
-          {activeModal === "events" && (
-            <Modal
-              key="events-modal"
-              isOpen={true}
-              onClose={() => setActiveModal(null)}
-              title="Upcoming Events"
-            >
-              <div className="space-y-6">
-                {upcomingEvents.map((event, index) => (
-                  <div
-                    key={`event-${index}`}
-                    className="bg-gradient-to-br from-slate-700 to-slate-600 p-6 rounded-xl border border-purple-500/30"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-cyan-300 mb-2">
-                          {event.title}
-                        </h3>
-                        <p className="text-purple-300 text-lg">
-                          {event.date} • {event.time}
-                        </p>
-                      </div>
-                      {event.featured && (
-                        <div className="bg-yellow-400 text-yellow-900 rounded-full px-3 py-1 text-sm font-bold">
-                          ⭐ Featured
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-gray-300 mb-4">{event.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full">
-                        {event.ageGroup}
-                      </span>
-                      <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white rounded-full">
-                        Register Now
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Modal>
-          )}
-
-          {activeModal === "age-groups" && (
-            <Modal
-              key="age-groups-modal"
-              isOpen={true}
-              onClose={() => setActiveModal(null)}
-              title="Choose Your Adventure Path"
-            >
-              <div className="grid md:grid-cols-3 gap-6">
-                {ageGroups.map((group, index) => (
-                  <div
-                    key={`age-group-${group.id}`}
-                    className={`bg-gradient-to-br ${group.color} p-6 rounded-xl text-white cursor-pointer hover:scale-105 transition-transform`}
-                    onClick={() => setSelectedAgeGroup(group.id)}
-                  >
-                    <div className="text-center">
-                      <div className="text-5xl mb-4">{group.icon}</div>
-                      <h3 className="text-2xl font-bold mb-2">{group.title}</h3>
-                      <p className="text-lg opacity-90 mb-4">
-                        {group.subtitle}
+        <Dialog
+          open={activeModal === "events"}
+          onOpenChange={(open) => !open && closeModal()}
+        >
+          <DialogContent className="bg-gradient-to-br from-slate-800 to-slate-700 border-cyan-500/30 max-w-4xl max-h-[90vh] overflow-y-auto text-white">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Upcoming Events
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6">
+              {upcomingEvents.map((event, index) => (
+                <motion.div
+                  key={`event-${index}`}
+                  className="bg-gradient-to-br from-slate-700 to-slate-600 p-6 rounded-xl border border-purple-500/30"
+                  whileHover={{ scale: 1.02, borderColor: "rgb(168 85 247)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-cyan-300 mb-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-purple-300 text-lg">
+                        {event.date} • {event.time}
                       </p>
-                      <p className="mb-6 opacity-80">{group.description}</p>
-                      <div className="space-y-2">
-                        {group.projects.map((project, i) => (
-                          <div
-                            key={`project-${group.id}-${i}`}
-                            className="bg-white/20 rounded-full px-3 py-1 text-sm"
-                          >
-                            {project}
-                          </div>
-                        ))}
-                      </div>
+                    </div>
+                    {event.featured && (
+                      <motion.div
+                        className="bg-yellow-400 text-yellow-900 rounded-full px-3 py-1 text-sm font-bold"
+                        animate={{ rotate: [0, 5, -5, 0] }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatDelay: 3,
+                        }}
+                      >
+                        ⭐ Featured
+                      </motion.div>
+                    )}
+                  </div>
+                  <p className="text-gray-300 mb-4">{event.description}</p>
+                  <div className="flex justify-between items-center">
+                    <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full">
+                      {event.ageGroup}
+                    </span>
+                    <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white rounded-full hover:scale-105 transition-transform">
+                      Register Now
+                    </Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={activeModal === "age-groups"}
+          onOpenChange={(open) => !open && closeModal()}
+        >
+          <DialogContent className="bg-gradient-to-br from-slate-800 to-slate-700 border-cyan-500/30 max-w-4xl max-h-[90vh] overflow-y-auto text-white">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Choose Your Adventure Path
+              </DialogTitle>
+            </DialogHeader>
+            <div className="grid md:grid-cols-3 gap-6">
+              {ageGroups.map((group, index) => (
+                <motion.div
+                  key={`age-group-${group.id}`}
+                  className={`bg-gradient-to-br ${group.color} p-6 rounded-xl text-white cursor-pointer`}
+                  onClick={() => setSelectedAgeGroup(group.id)}
+                  whileHover={{ scale: 1.05, rotateY: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-center">
+                    <motion.div
+                      className="text-5xl mb-4"
+                      animate={{
+                        rotate:
+                          selectedAgeGroup === group.id ? [0, 10, -10, 0] : 0,
+                      }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {group.icon}
+                    </motion.div>
+                    <h3 className="text-2xl font-bold mb-2">{group.title}</h3>
+                    <p className="text-lg opacity-90 mb-4">{group.subtitle}</p>
+                    <p className="mb-6 opacity-80">{group.description}</p>
+                    <div className="space-y-2">
+                      {group.projects.map((project, i) => (
+                        <motion.div
+                          key={`project-${group.id}-${i}`}
+                          className="bg-white/20 rounded-full px-3 py-1 text-sm"
+                          whileHover={{
+                            scale: 1.05,
+                            backgroundColor: "rgba(255,255,255,0.3)",
+                          }}
+                        >
+                          {project}
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
+                </motion.div>
+              ))}
+            </div>
+            <AnimatePresence>
               {selectedAgeGroup && (
-                <div className="mt-6 p-6 bg-gradient-to-r from-green-500/20 to-teal-500/20 rounded-xl border border-green-500/30">
+                <motion.div
+                  className="mt-6 p-6 bg-gradient-to-r from-green-500/20 to-teal-500/20 rounded-xl border border-green-500/30"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <h3 className="text-xl font-bold text-green-300 mb-3">
                     🎉 Great Choice!
                   </h3>
@@ -863,187 +909,222 @@ export default function JengaCodeLanding() {
                     path! This adventure is perfect for building skills step by
                     step while having tons of fun.
                   </p>
-                  <Button className="mt-4 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-full">
+                  <Button className="mt-4 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-full hover:scale-105 transition-transform">
                     Start Your Journey
                   </Button>
-                </div>
+                </motion.div>
               )}
-            </Modal>
-          )}
+            </AnimatePresence>
+          </DialogContent>
+        </Dialog>
 
-          {showEventSchedule && (
-            <Modal
-              key="event-schedule-modal"
-              isOpen={true}
-              onClose={() => setShowEventSchedule(false)}
-              title="Summer Coding Camp Schedule"
-            >
-              <div className="space-y-6">
-                <div className="text-center mb-6">
-                  <div className="inline-flex items-center bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-full font-bold text-lg">
-                    🏕️ August 8th - 9th, 2025
-                  </div>
+        <Dialog
+          open={showEventSchedule}
+          onOpenChange={(open) => !open && closeEventSchedule()}
+        >
+          <DialogContent className="bg-gradient-to-br from-slate-800 to-slate-700 border-cyan-500/30 max-w-6xl max-h-[90vh] overflow-y-auto text-white">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Summer Coding Camp Schedule
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-full font-bold text-lg">
+                  🏕️ August 8th - 9th, 2025
                 </div>
+              </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-gradient-to-br from-purple-600/20 to-purple-700/20 p-6 rounded-xl border border-purple-500/30">
-                    <h3 className="text-2xl font-bold text-purple-300 mb-4">
-                      Day 1 - August 8th
-                    </h3>
-                    <div className="space-y-3 text-gray-300">
-                      <div className="flex justify-between">
-                        <span className="font-semibold">9:00 AM</span>
-                        <span>Registration & Welcome</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">9:30 AM</span>
-                        <span>Icebreaker Games</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">10:00 AM</span>
-                        <span>Scratch Programming Basics</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">12:00 PM</span>
-                        <span>Lunch Break</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">1:00 PM</span>
-                        <span>Robotics Workshop</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">3:00 PM</span>
-                        <span>Project Showcase Prep</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">4:00 PM</span>
-                        <span>Day 1 Wrap-up</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-cyan-600/20 to-cyan-700/20 p-6 rounded-xl border border-cyan-500/30">
-                    <h3 className="text-2xl font-bold text-cyan-300 mb-4">
-                      Day 2 - August 9th
-                    </h3>
-                    <div className="space-y-3 text-gray-300">
-                      <div className="flex justify-between">
-                        <span className="font-semibold">9:00 AM</span>
-                        <span>Morning Energizer</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">9:30 AM</span>
-                        <span>Web Development Intro</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">11:00 AM</span>
-                        <span>Team Project Time</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">12:00 PM</span>
-                        <span>Lunch Break</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">1:00 PM</span>
-                        <span>Final Project Polish</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">2:30 PM</span>
-                        <span>Project Presentations</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">3:30 PM</span>
-                        <span>Awards & Certificates</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">4:00 PM</span>
-                        <span>Closing Ceremony</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-r from-green-500/20 to-teal-500/20 p-6 rounded-xl border border-green-500/30">
-                  <h3 className="text-xl font-bold text-green-300 mb-3">
-                    What to Bring
+              <div className="grid md:grid-cols-2 gap-6">
+                <motion.div
+                  className="bg-gradient-to-br from-purple-600/20 to-purple-700/20 p-6 rounded-xl border border-purple-500/30"
+                  whileHover={{ scale: 1.02, borderColor: "rgb(168 85 247)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h3 className="text-2xl font-bold text-purple-300 mb-4">
+                    Day 1 - August 8th
                   </h3>
-                  <ul className="text-gray-300 space-y-1">
-                    <li>• Laptop or tablet (we'll provide if needed)</li>
-                    <li>• Lunch and snacks</li>
-                    <li>• Water bottle</li>
-                    <li>• Notebook and pen</li>
-                    <li>• Your creativity and enthusiasm!</li>
-                  </ul>
-                </div>
+                  <div className="space-y-3 text-gray-300">
+                    <div className="flex justify-between">
+                      <span className="font-semibold">9:00 AM</span>
+                      <span>Registration & Welcome</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">9:30 AM</span>
+                      <span>Icebreaker Games</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">10:00 AM</span>
+                      <span>Scratch Programming Basics</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">12:00 PM</span>
+                      <span>Lunch Break</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">1:00 PM</span>
+                      <span>Robotics Workshop</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">3:00 PM</span>
+                      <span>Project Showcase Prep</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">4:00 PM</span>
+                      <span>Day 1 Wrap-up</span>
+                    </div>
+                  </div>
+                </motion.div>
 
-                <div className="text-center">
-                  <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-3 rounded-full font-bold text-lg">
+                <motion.div
+                  className="bg-gradient-to-br from-cyan-600/20 to-cyan-700/20 p-6 rounded-xl border border-cyan-500/30"
+                  whileHover={{ scale: 1.02, borderColor: "rgb(34 211 238)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h3 className="text-2xl font-bold text-cyan-300 mb-4">
+                    Day 2 - August 9th
+                  </h3>
+                  <div className="space-y-3 text-gray-300">
+                    <div className="flex justify-between">
+                      <span className="font-semibold">9:00 AM</span>
+                      <span>Morning Energizer</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">9:30 AM</span>
+                      <span>Web Development Intro</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">11:00 AM</span>
+                      <span>Team Project Time</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">12:00 PM</span>
+                      <span>Lunch Break</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">1:00 PM</span>
+                      <span>Final Project Polish</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">2:30 PM</span>
+                      <span>Project Presentations</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">3:30 PM</span>
+                      <span>Awards & Certificates</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">4:00 PM</span>
+                      <span>Closing Ceremony</span>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              <motion.div
+                className="bg-gradient-to-r from-green-500/20 to-teal-500/20 p-6 rounded-xl border border-green-500/30"
+                whileHover={{ scale: 1.02, borderColor: "rgb(34 197 94)" }}
+                transition={{ duration: 0.2 }}
+              >
+                <h3 className="text-xl font-bold text-green-300 mb-3">
+                  What to Bring
+                </h3>
+                <ul className="text-gray-300 space-y-1">
+                  <li>• Laptop or tablet (we'll provide if needed)</li>
+                  <li>• Lunch and snacks</li>
+                  <li>• Water bottle</li>
+                  <li>• Notebook and pen</li>
+                  <li>• Your creativity and enthusiasm!</li>
+                </ul>
+              </motion.div>
+
+              <div className="text-center">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-yellow-500/25 transition-all duration-300">
                     Register for Camp Now!
+                  </Button>
+                </motion.div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {challenges.map((challenge, index) => (
+          <Dialog
+            key={`challenge-dialog-${index}`}
+            open={activeModal === `challenge-${index}`}
+            onOpenChange={(open) => !open && closeModal()}
+          >
+            <DialogContent className="bg-gradient-to-br from-slate-800 to-slate-700 border-cyan-500/30 max-w-4xl max-h-[90vh] overflow-y-auto text-white">
+              <DialogHeader>
+                <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  {challenge.title}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="text-center">
+                <motion.div
+                  className="text-6xl mb-6"
+                  animate={{ rotateY: [0, 360] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                >
+                  {challenge.icon}
+                </motion.div>
+                <p className="text-xl text-gray-300 mb-6">
+                  {challenge.description}
+                </p>
+                <div className="mb-6">
+                  <motion.span
+                    className={`px-4 py-2 rounded-full text-lg font-bold ${
+                      challenge.difficulty === "Easy"
+                        ? "bg-green-500/20 text-green-300"
+                        : challenge.difficulty === "Medium"
+                          ? "bg-yellow-500/20 text-yellow-300"
+                          : "bg-blue-500/20 text-blue-300"
+                    }`}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    Difficulty: {challenge.difficulty}
+                  </motion.span>
+                </div>
+                <motion.div
+                  className="bg-gradient-to-br from-slate-700 to-slate-600 p-8 rounded-xl border border-cyan-500/30 mb-6"
+                  whileHover={{ borderColor: "rgb(34 211 238)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h3 className="text-xl font-bold text-cyan-300 mb-4">
+                    Challenge Preview
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    This is where the interactive challenge would load. In the
+                    full version, you'd see:
+                  </p>
+                  <ul className="text-gray-300 text-left space-y-2">
+                    <li>• Interactive coding interface</li>
+                    <li>• Step-by-step instructions</li>
+                    <li>• Hints and tips system</li>
+                    <li>• Progress tracking</li>
+                    <li>• Achievement badges</li>
+                  </ul>
+                </motion.div>
+                <div className="flex gap-4 justify-center">
+                  <Button className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-full px-6 py-3 hover:scale-105 transition-transform">
+                    Start Challenge
+                  </Button>
+                  <Button
+                    onClick={closeModal}
+                    className="bg-gray-600 hover:bg-gray-700 text-white rounded-full px-6 py-3 hover:scale-105 transition-transform"
+                  >
+                    Maybe Later
                   </Button>
                 </div>
               </div>
-            </Modal>
-          )}
-
-          {challenges.map(
-            (challenge, index) =>
-              activeModal === `challenge-${index}` && (
-                <Modal
-                  key={`challenge-modal-${index}`}
-                  isOpen={true}
-                  onClose={() => setActiveModal(null)}
-                  title={challenge.title}
-                >
-                  <div className="text-center">
-                    <div className="text-6xl mb-6">{challenge.icon}</div>
-                    <p className="text-xl text-gray-300 mb-6">
-                      {challenge.description}
-                    </p>
-                    <div className="mb-6">
-                      <span
-                        className={`px-4 py-2 rounded-full text-lg font-bold ${
-                          challenge.difficulty === "Easy"
-                            ? "bg-green-500/20 text-green-300"
-                            : challenge.difficulty === "Medium"
-                              ? "bg-yellow-500/20 text-yellow-300"
-                              : "bg-blue-500/20 text-blue-300"
-                        }`}
-                      >
-                        Difficulty: {challenge.difficulty}
-                      </span>
-                    </div>
-                    <div className="bg-gradient-to-br from-slate-700 to-slate-600 p-8 rounded-xl border border-cyan-500/30 mb-6">
-                      <h3 className="text-xl font-bold text-cyan-300 mb-4">
-                        Challenge Preview
-                      </h3>
-                      <p className="text-gray-300 mb-4">
-                        This is where the interactive challenge would load. In
-                        the full version, you'd see:
-                      </p>
-                      <ul className="text-gray-300 text-left space-y-2">
-                        <li>• Interactive coding interface</li>
-                        <li>• Step-by-step instructions</li>
-                        <li>• Hints and tips system</li>
-                        <li>• Progress tracking</li>
-                        <li>• Achievement badges</li>
-                      </ul>
-                    </div>
-                    <div className="flex gap-4 justify-center">
-                      <Button className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-full px-6 py-3">
-                        Start Challenge
-                      </Button>
-                      <Button
-                        onClick={() => setActiveModal(null)}
-                        className="bg-gray-600 hover:bg-gray-700 text-white rounded-full px-6 py-3"
-                      >
-                        Maybe Later
-                      </Button>
-                    </div>
-                  </div>
-                </Modal>
-              ),
-          )}
-        </AnimatePresence>
+            </DialogContent>
+          </Dialog>
+        ))}
       </div>
     </div>
   );
