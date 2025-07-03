@@ -453,13 +453,12 @@ export default function JengaCodeLanding() {
                         {challenge.difficulty}
                       </span>
                     </div>
-                    <Button
-                      onClick={() => setActiveModal(`challenge-${index}`)}
-                      className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white rounded-full w-full"
-                    >
-                      <Play className="mr-2 w-4 h-4" />
-                      Start Challenge
-                    </Button>
+                    <Link href="/challenges">
+                      <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white rounded-full w-full">
+                        <Play className="mr-2 w-4 h-4" />
+                        Start Challenge
+                      </Button>
+                    </Link>
                   </CardContent>
                 </Card>
               </motion.div>
