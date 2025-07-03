@@ -32,6 +32,8 @@ import {
   MapPin,
   Image as ImageIcon,
 } from "lucide-react";
+import { AdventureZones } from "@/components/adventure/adventure-zones";
+import { ShareButtons } from "@/components/social/share-buttons";
 
 export default function JengaCodeLanding() {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -312,58 +314,8 @@ export default function JengaCodeLanding() {
             Choose Your Adventure Path
           </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {ageGroups.map((group, index) => (
-              <motion.div
-                key={group.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                className="cursor-pointer"
-                onClick={() => handleExploreZone(group.id)}
-              >
-                <Card
-                  className={`bg-gradient-to-br ${group.color} border-0 shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 h-full`}
-                >
-                  <CardContent className="p-8 text-center text-white">
-                    <div className="text-6xl mb-4">{group.icon}</div>
-                    <h3 className="text-2xl font-bold mb-2">{group.title}</h3>
-                    <p className="text-lg opacity-90 mb-4">{group.subtitle}</p>
-                    <p className="mb-6 opacity-80">{group.description}</p>
-
-                    <div className="space-y-2 mb-6">
-                      {group.projects.map((project, i) => (
-                        <div
-                          key={i}
-                          className="bg-white/20 rounded-full px-3 py-1 text-sm"
-                        >
-                          {project}
-                        </div>
-                      ))}
-                    </div>
-
-                    <Button className="bg-white/20 hover:bg-white/30 text-white border-0 rounded-full">
-                      Explore Zone <ChevronRight className="ml-2 w-4 h-4" />
-                    </Button>
-
-                    {exploredZones.has(group.id) && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="mt-4"
-                      >
-                        <div className="bg-yellow-400 text-yellow-900 rounded-full px-3 py-1 text-sm font-bold inline-flex items-center">
-                          <Star className="w-4 h-4 mr-1" />
-                          Explorer Badge!
-                        </div>
-                      </motion.div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+          <div className="max-w-6xl mx-auto">
+            <AdventureZones />
           </div>
         </section>
 
@@ -400,10 +352,10 @@ export default function JengaCodeLanding() {
                   <Calendar className="mr-2 w-5 h-5" />
                   View Event Schedule
                 </Button>
-                <Button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-500 px-6 py-3 rounded-full">
-                  <Share2 className="mr-2 w-5 h-5" />
-                  Share with Friends
-                </Button>
+                <ShareButtons
+                  title="JengaCode Summer Coding Camp"
+                  text="Join us for an amazing 2-day coding adventure! Learn robotics, Scratch programming, web development, and so much more. All skill levels welcome!"
+                />
               </div>
             </motion.div>
           </div>
