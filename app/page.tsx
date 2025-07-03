@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
+import Link from "next/link";
 import {
   Rocket,
   Star,
@@ -29,6 +30,7 @@ import {
   Mail,
   Phone,
   MapPin,
+  Image as ImageIcon,
 } from "lucide-react";
 
 export default function JengaCodeLanding() {
@@ -232,41 +234,10 @@ export default function JengaCodeLanding() {
 
       {/* Main Content */}
       <div className="relative z-10">
-        {/* Header */}
-        <header className="p-6 flex justify-between items-center">
-          <motion.div
-            className="flex items-center space-x-2"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 2 }}
-          >
-            <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center border-2 border-cyan-300">
-              <span className="text-white font-bold text-lg">{"<J>"}</span>
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-300 bg-clip-text text-transparent">
-              ENGACODE
-            </span>
-          </motion.div>
-
-          <motion.button
-            onClick={() => setMusicEnabled(!musicEnabled)}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 2 }}
-          >
-            {musicEnabled ? (
-              <Volume2 className="w-5 h-5" />
-            ) : (
-              <VolumeX className="w-5 h-5" />
-            )}
-          </motion.button>
-        </header>
+        {/* Header - Now handled by Navigation component */}
 
         {/* Hero Section */}
-        <section className="px-6 py-12 text-center">
+        <section className="px-6 py-20 text-center mt-16">
           <motion.h1
             className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 50 }}
@@ -302,9 +273,17 @@ export default function JengaCodeLanding() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/events">
+                <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
+                  <ImageIcon className="mr-2 w-5 h-5" />
+                  Past Events Gallery
+                </Button>
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 onClick={() => setActiveModal("events")}
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+                className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-green-500/25 transition-all duration-300"
               >
                 <Calendar className="mr-2 w-5 h-5" />
                 Upcoming Events
@@ -313,7 +292,7 @@ export default function JengaCodeLanding() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 onClick={() => setActiveModal("age-groups")}
-                className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-green-500/25 transition-all duration-300"
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-orange-500/25 transition-all duration-300"
               >
                 <Users className="mr-2 w-5 h-5" />
                 Explore by Age
