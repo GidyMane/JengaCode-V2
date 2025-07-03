@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 import {
   Star,
   Trophy,
@@ -20,6 +21,7 @@ import {
   Wrench,
   Sparkles,
 } from "lucide-react";
+import { useAdventureProgress } from "./adventure-storage";
 
 interface Activity {
   id: string;
@@ -46,10 +48,7 @@ interface Zone {
 }
 
 export function AdventureZones() {
-  const [exploredZones, setExploredZones] = useState<Set<string>>(new Set());
-  const [completedActivities, setCompletedActivities] = useState<Set<string>>(
-    new Set(),
-  );
+  const { progress, exploreZone, completeActivity } = useAdventureProgress();
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
 
   const zones: Zone[] = [
@@ -245,33 +244,24 @@ export function AdventureZones() {
   ];
 
   const handleExploreZone = (zoneId: string) => {
-    setExploredZones((prev) => new Set([...prev, zoneId]));
+    exploreZone(zoneId);
     setSelectedZone(zoneId);
+    toast.success("Zone explored! Keep going to unlock more activities! 🚀");
   };
 
   const handleCompleteActivity = (zoneId: string, activityId: string) => {
-    setCompletedActivities((prev) => new Set([...prev, activityId]));
-
-    // Update zone XP and unlock next activities
     const zone = zones.find((z) => z.id === zoneId);
     const activity = zone?.activities.find((a) => a.id === activityId);
 
-    if (zone && activity) {
-      zone.userXP += activity.xp;
-
-      // Unlock next activity if exists
-      const currentIndex = zone.activities.findIndex(
-        (a) => a.id === activityId,
-      );
-      if (currentIndex < zone.activities.length - 1) {
-        zone.activities[currentIndex + 1].unlocked = true;
-      }
+    if (zone && activity && !progress.completedActivities.has(activityId)) {
+      completeActivity(zoneId, activityId, activity.xp);
+      toast.success(`🎉 Activity completed! +${activity.xp} XP earned!`);
     }
   };
 
   const getZoneBadge = (zone: Zone) => {
     const completedCount = zone.activities.filter((a) =>
-      completedActivities.has(a.id),
+      progress.completedActivities.has(a.id),
     ).length;
 
     if (completedCount === 0) return null;
@@ -279,6 +269,26 @@ export function AdventureZones() {
     if (completedCount < 5) return "Builder";
     return "Master";
   };
+
+  // Update zones with current progress
+  zones.forEach((zone) => {
+    zone.userXP = progress.userXP[zone.id] || 0;
+
+    // Update activity unlock status based on completed activities
+    zone.activities.forEach((activity, index) => {
+      if (index === 0) {
+        activity.unlocked = true; // First activity is always unlocked
+      } else {
+        // Unlock if previous activity is completed
+        const previousActivity = zone.activities[index - 1];
+        activity.unlocked = progress.completedActivities.has(
+          previousActivity.id,
+        );
+      }
+
+      activity.completed = progress.completedActivities.has(activity.id);
+    });
+  });
 
   const selectedZoneData = zones.find((z) => z.id === selectedZone);
 
@@ -326,7 +336,7 @@ export function AdventureZones() {
                     <div
                       key={activity.id}
                       className={`bg-white/20 rounded-full px-3 py-1 text-sm flex items-center justify-between ${
-                        completedActivities.has(activity.id)
+                        progress.completedActivities.has(activity.id)
                           ? "bg-green-500/30"
                           : ""
                       }`}
@@ -334,7 +344,7 @@ export function AdventureZones() {
                       <span>
                         {activity.icon} {activity.title}
                       </span>
-                      {completedActivities.has(activity.id) && (
+                      {progress.completedActivities.has(activity.id) && (
                         <Star className="w-3 h-3 text-yellow-300" />
                       )}
                     </div>
@@ -346,7 +356,7 @@ export function AdventureZones() {
                 </Button>
 
                 {/* Zone Badge */}
-                {exploredZones.has(zone.id) && (
+                {progress.exploredZones.has(zone.id) && (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -419,7 +429,7 @@ export function AdventureZones() {
                         {!activity.unlocked && (
                           <Lock className="w-4 h-4 text-gray-400" />
                         )}
-                        {completedActivities.has(activity.id) && (
+                        {progress.completedActivities.has(activity.id) && (
                           <Trophy className="w-4 h-4 text-yellow-400" />
                         )}
                       </div>
@@ -461,12 +471,12 @@ export function AdventureZones() {
                           )
                         }
                         variant={
-                          completedActivities.has(activity.id)
+                          progress.completedActivities.has(activity.id)
                             ? "secondary"
                             : "default"
                         }
                       >
-                        {completedActivities.has(activity.id) ? (
+                        {progress.completedActivities.has(activity.id) ? (
                           <>
                             <Trophy className="w-4 h-4 mr-2" />
                             Completed
