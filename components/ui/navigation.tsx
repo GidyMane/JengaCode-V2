@@ -45,9 +45,11 @@ export function Navigation() {
                 {item.label}
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-jengacode-purple to-jengacode-cyan hover:from-jengacode-purple-light hover:to-jengacode-cyan-light text-white rounded-full px-6">
-              Join Us
-            </Button>
+            <Link href="/join">
+              <Button className="bg-gradient-to-r from-jengacode-purple to-jengacode-cyan hover:from-jengacode-purple-light hover:to-jengacode-cyan-light text-white rounded-full px-6">
+                Join Us
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
