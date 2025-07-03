@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Star, Trophy, Medal, Crown, Zap, Heart } from "lucide-react";
+import { useAdventureProgress } from "./adventure-storage";
 
 interface Achievement {
   id: string;
@@ -24,6 +25,8 @@ export function AchievementBadges({
   className = "",
   compact = false,
 }: AchievementBadgesProps) {
+  const { progress } = useAdventureProgress();
+
   const achievements: Achievement[] = [
     {
       id: "first-steps",
@@ -31,8 +34,8 @@ export function AchievementBadges({
       description: "Complete your first coding activity",
       icon: <Star className="w-4 h-4" />,
       color: "bg-yellow-500",
-      unlocked: false,
-      progress: 0,
+      unlocked: progress.achievements.has("first-steps"),
+      progress: Math.min(progress.completedActivities.size, 1),
       maxProgress: 1,
     },
     {
@@ -41,8 +44,8 @@ export function AchievementBadges({
       description: "Explore all three adventure zones",
       icon: <Medal className="w-4 h-4" />,
       color: "bg-blue-500",
-      unlocked: false,
-      progress: 0,
+      unlocked: progress.achievements.has("explorer"),
+      progress: progress.exploredZones.size,
       maxProgress: 3,
     },
     {
@@ -51,8 +54,8 @@ export function AchievementBadges({
       description: "Complete 5 coding projects",
       icon: <Trophy className="w-4 h-4" />,
       color: "bg-green-500",
-      unlocked: false,
-      progress: 0,
+      unlocked: progress.achievements.has("builder"),
+      progress: Math.min(progress.completedActivities.size, 5),
       maxProgress: 5,
     },
     {
@@ -61,8 +64,8 @@ export function AchievementBadges({
       description: "Work on a team project",
       icon: <Heart className="w-4 h-4" />,
       color: "bg-pink-500",
-      unlocked: false,
-      progress: 0,
+      unlocked: progress.achievements.has("collaborator"),
+      progress: progress.achievements.has("collaborator") ? 1 : 0,
       maxProgress: 1,
     },
     {
@@ -71,8 +74,8 @@ export function AchievementBadges({
       description: "Create an original project idea",
       icon: <Zap className="w-4 h-4" />,
       color: "bg-purple-500",
-      unlocked: false,
-      progress: 0,
+      unlocked: progress.achievements.has("innovator"),
+      progress: progress.achievements.has("innovator") ? 1 : 0,
       maxProgress: 1,
     },
     {
@@ -81,8 +84,8 @@ export function AchievementBadges({
       description: "Complete all activities in a zone",
       icon: <Crown className="w-4 h-4" />,
       color: "bg-orange-500",
-      unlocked: false,
-      progress: 0,
+      unlocked: progress.achievements.has("master"),
+      progress: progress.achievements.has("master") ? 1 : 0,
       maxProgress: 1,
     },
   ];
