@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Star, Trophy, Medal, Crown, Zap, Heart } from "lucide-react";
 import { useAdventureProgress } from "./adventure-storage";
+import { ProgressReset } from "./progress-reset";
 
 interface Achievement {
   id: string;
@@ -203,9 +204,10 @@ export function AchievementBadges({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="text-center text-gray-400 text-sm"
+        className="text-center text-gray-400 text-sm space-y-3"
       >
         <p>🏆 Unlock badges by completing activities and exploring zones!</p>
+        <ProgressReset />
       </motion.div>
     </div>
   );
