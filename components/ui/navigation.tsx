@@ -90,9 +90,11 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <Button className="w-full bg-gradient-to-r from-jengacode-cyan to-jengacode-purple hover:from-jengacode-cyan-light hover:to-jengacode-purple-light text-white rounded-full mt-4">
-                Join Us
-              </Button>
+              <Link href="/join">
+                <Button className="w-full bg-gradient-to-r from-jengacode-cyan to-jengacode-purple hover:from-jengacode-cyan-light hover:to-jengacode-purple-light text-white rounded-full mt-4">
+                  Join Us
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}
