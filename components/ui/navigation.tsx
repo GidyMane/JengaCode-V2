@@ -12,8 +12,8 @@ export function Navigation() {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/events", label: "Events" },
-    { href: "#about", label: "About" },
-    { href: "#contact", label: "Contact" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -45,9 +45,11 @@ export function Navigation() {
                 {item.label}
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-jengacode-purple to-jengacode-cyan hover:from-jengacode-purple-light hover:to-jengacode-cyan-light text-white rounded-full px-6">
-              Join Us
-            </Button>
+            <Link href="/join">
+              <Button className="bg-gradient-to-r from-jengacode-purple to-jengacode-cyan hover:from-jengacode-purple-light hover:to-jengacode-cyan-light text-white rounded-full px-6">
+                Join Us
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -88,9 +90,11 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <Button className="w-full bg-gradient-to-r from-jengacode-cyan to-jengacode-purple hover:from-jengacode-cyan-light hover:to-jengacode-purple-light text-white rounded-full mt-4">
-                Join Us
-              </Button>
+              <Link href="/join">
+                <Button className="w-full bg-gradient-to-r from-jengacode-cyan to-jengacode-purple hover:from-jengacode-cyan-light hover:to-jengacode-purple-light text-white rounded-full mt-4">
+                  Join Us
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}
