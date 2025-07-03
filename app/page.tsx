@@ -552,6 +552,13 @@ export default function JengaCodeLanding() {
           </motion.div>
         </motion.div>
 
+        {/* Floating WhatsApp Share Button */}
+        <ShareButtons
+          variant="floating"
+          title="JengaCode - Where Young Minds Code the Future!"
+          text="Check out this amazing coding community for kids! 🚀"
+        />
+
         {/* Parents & Mentors Footer */}
         <footer className="bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-12 mt-16">
           <div className="max-w-6xl mx-auto">
