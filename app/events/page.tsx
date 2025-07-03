@@ -1,15 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Past Events Gallery | JengaCode",
-  description:
-    "Explore our amazing journey through past workshops, camps, competitions, and showcases. See incredible projects, meet participants, and get inspired for future events.",
-  keywords:
-    "coding events, kids programming, tech workshops, coding camps, STEM education, youth innovation",
-};
 import { motion } from "framer-motion";
 import { EventCard } from "@/components/events/event-card";
 import { EventFilters } from "@/components/events/event-filters";

@@ -11,7 +11,7 @@ export const mockEvents: Event[] = [
     images: [
       {
         id: "img1",
-        url: "/api/placeholder/800/600",
+        url: "https://images.unsplash.com/photo-1596443686812-2c72aaab1b48?w=800&h=600&fit=crop",
         alt: "Kids programming robots",
         caption: "Young coders programming their first robots",
         featured: true,
@@ -89,21 +89,21 @@ export const mockEvents: Event[] = [
     images: [
       {
         id: "img5",
-        url: "/api/placeholder/800/600",
+        url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
         alt: "Robot components",
         caption: "Exploring robot components and sensors",
         featured: true,
       },
       {
         id: "img6",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop",
         alt: "Kids building robots",
         caption: "Assembling robots step by step",
         featured: false,
       },
       {
         id: "img7",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop",
         alt: "Robot testing",
         caption: "Testing robot movements",
         featured: false,
@@ -152,21 +152,21 @@ export const mockEvents: Event[] = [
     images: [
       {
         id: "img8",
-        url: "/api/placeholder/800/600",
+        url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=600&fit=crop",
         alt: "Digital art display",
         caption: "Interactive digital art installations",
         featured: true,
       },
       {
         id: "img9",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop",
         alt: "Kids presenting",
         caption: "Young artists explaining their work",
         featured: false,
       },
       {
         id: "img10",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&h=400&fit=crop",
         alt: "Audience engagement",
         caption: "Visitors interacting with exhibits",
         featured: false,
@@ -220,21 +220,21 @@ export const mockEvents: Event[] = [
     images: [
       {
         id: "img11",
-        url: "/api/placeholder/800/600",
+        url: "https://images.unsplash.com/photo-1542744094-24638eff58bb?w=800&h=600&fit=crop",
         alt: "Team coding",
         caption: "Teams collaborating on game development",
         featured: true,
       },
       {
         id: "img12",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1556438064-2d7646166914?w=600&h=400&fit=crop",
         alt: "Game testing",
         caption: "Testing and debugging games",
         featured: false,
       },
       {
         id: "img13",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop",
         alt: "Final presentations",
         caption: "Teams presenting their finished games",
         featured: false,
@@ -288,14 +288,14 @@ export const mockEvents: Event[] = [
     images: [
       {
         id: "img14",
-        url: "/api/placeholder/800/600",
+        url: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=800&h=600&fit=crop",
         alt: "AI demonstration",
         caption: "Learning about machine learning concepts",
         featured: true,
       },
       {
         id: "img15",
-        url: "/api/placeholder/600/400",
+        url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=400&fit=crop",
         alt: "Hands-on AI projects",
         caption: "Building simple AI applications",
         featured: false,
