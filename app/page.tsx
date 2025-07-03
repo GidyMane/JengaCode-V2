@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { AdventureZones } from "@/components/adventure/adventure-zones";
 import { ShareButtons } from "@/components/social/share-buttons";
+import { AchievementBadges } from "@/components/adventure/achievement-badges";
 
 export default function JengaCodeLanding() {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -463,6 +464,21 @@ export default function JengaCodeLanding() {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        {/* Achievement Badges Section */}
+        <section className="px-6 py-16 bg-gradient-to-r from-slate-900/50 to-purple-900/50">
+          <div className="max-w-4xl mx-auto">
+            <motion.h2
+              className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Earn Your Badges!
+            </motion.h2>
+            <AchievementBadges />
           </div>
         </section>
 
