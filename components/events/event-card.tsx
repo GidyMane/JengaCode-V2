@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Event } from "@/types/event";
 import { formatDate, getCategoryDisplay } from "@/lib/events";
-import { Calendar, MapPin, Users, Clock, Star } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { attendanceService } from "@/lib/attendance";
+import { Calendar, MapPin, Users, Clock, Star, CheckCircle, UserPlus } from "lucide-react";
 import Image from "next/image";
+import React from "react";
 
 interface EventCardProps {
   event: Event;
