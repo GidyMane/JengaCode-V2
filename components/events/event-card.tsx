@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Event } from "@/types/event";
 import { formatDate, getCategoryDisplay } from "@/lib/events";
-import { Calendar, MapPin, Users, Clock, Star } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { attendanceService } from "@/lib/attendance";
+import { Calendar, MapPin, Users, Clock, Star, CheckCircle, UserPlus } from "lucide-react";
 import Image from "next/image";
+import React from "react";
 
 interface EventCardProps {
   event: Event;
@@ -15,8 +18,13 @@ interface EventCardProps {
 }
 
 export function EventCard({ event, onViewDetails }: EventCardProps) {
+  const { user } = useAuth();
   const featuredImage =
     event.images.find((img) => img.featured) || event.images[0];
+
+  const isRegistered = user ? attendanceService.isUserRegistered(user.id, event.id) : false;
+  const hasAttended = user ? attendanceService.hasUserAttended(user.id, event.id) : false;
+  const isEventPast = new Date(event.date) < new Date();
 
   return (
     <motion.div
@@ -78,9 +86,27 @@ export function EventCard({ event, onViewDetails }: EventCardProps) {
               <Clock className="w-4 h-4 mr-2 text-jengacode-yellow" />
               {event.duration}
             </div>
-            <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-              <Users className="w-4 h-4 mr-2 text-jengacode-purple" />
-              {event.attendees.length} participants
+            <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex items-center">
+                <Users className="w-4 h-4 mr-2 text-jengacode-purple" />
+                {event.attendees.length} participants
+              </div>
+              {user && (
+                <div className="flex space-x-1">
+                  {hasAttended && (
+                    <Badge className="bg-green-500/20 text-green-600 dark:text-green-400 border-green-500/50 text-xs">
+                      <CheckCircle className="w-3 h-3 mr-1" />
+                      Attended
+                    </Badge>
+                  )}
+                  {isRegistered && !hasAttended && (
+                    <Badge className="bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/50 text-xs">
+                      <UserPlus className="w-3 h-3 mr-1" />
+                      Registered
+                    </Badge>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 

@@ -43,14 +43,23 @@ export default function JengaCodeLanding() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string | null>(null);
   const [showEventSchedule, setShowEventSchedule] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Generate consistent positions for background elements
+  const backgroundElements = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: ((i * 23.7) % 100),
+    top: ((i * 17.3) % 100),
+  }));
 
   const ageGroups = [
     {
@@ -146,28 +155,30 @@ export default function JengaCodeLanding() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-cyan-500 text-white overflow-hidden relative">
       {/* Animated Background Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-cyan-400 rounded-full opacity-30"
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -100, 0],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + i * 0.5,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: i * 0.2,
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
-      </div>
+      {isClient && (
+        <div className="fixed inset-0 pointer-events-none">
+          {backgroundElements.map((element) => (
+            <motion.div
+              key={element.id}
+              className="absolute w-2 h-2 bg-cyan-400 rounded-full opacity-30"
+              animate={{
+                x: [0, 100, 0],
+                y: [0, -100, 0],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: 3 + element.id * 0.5,
+                repeat: Number.POSITIVE_INFINITY,
+                delay: element.id * 0.2,
+              }}
+              style={{
+                left: `${element.left}%`,
+                top: `${element.top}%`,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Cursor Trail */}
       <motion.div
