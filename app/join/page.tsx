@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { AuthModal } from "@/components/auth/auth-modal";
+import { useAuth } from "@/lib/auth";
 import {
   Users,
   Heart,
@@ -24,17 +23,9 @@ import {
 } from "lucide-react";
 
 export default function JoinUsPage() {
-  const [selectedMembership, setSelectedMembership] =
-    useState<string>("explorer");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    age: "",
-    interests: "",
-    parentEmail: "",
-    experience: "beginner",
-  });
-  const [submitted, setSubmitted] = useState(false);
+  const { user } = useAuth();
+  const [selectedMembership, setSelectedMembership] = useState<string>("explorer");
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const memberships = [
     {
@@ -123,23 +114,11 @@ export default function JoinUsPage() {
     },
   ];
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleJoinNow = () => {
+    setShowAuthModal(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setSubmitted(true);
-  };
-
-  if (submitted) {
+  if (user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-cyan-500 text-white flex items-center justify-center">
         <motion.div
@@ -152,31 +131,31 @@ export default function JoinUsPage() {
             <CheckCircle className="w-12 h-12 text-white" />
           </div>
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Welcome to JengaCode!
+            Welcome to JengaCode, {user.name}!
           </h1>
           <p className="text-xl text-cyan-200 mb-6">
-            Your application has been submitted successfully! We'll be in touch
-            within 24 hours.
+            You're already part of our amazing community! Ready to start coding?
           </p>
-          <Card className="bg-gradient-to-br from-slate-800 to-slate-700 border border-green-500/30">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-bold text-green-300 mb-3">
-                What's Next?
-              </h3>
-              <ul className="text-gray-300 space-y-2 text-left">
-                <li>• Check your email for welcome instructions</li>
-                <li>• Join our orientation session this weekend</li>
-                <li>• Download the JengaCode learning app</li>
-                <li>• Start your first coding challenge!</li>
-              </ul>
-            </CardContent>
-          </Card>
-          <div className="mt-6">
+          <div className="space-y-4">
             <Button
-              onClick={() => (window.location.href = "/")}
-              className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white px-8 py-3 rounded-full"
+              onClick={() => (window.location.href = "/dashboard")}
+              className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white px-8 py-3 rounded-full"
             >
-              Return Home
+              Go to Dashboard
+            </Button>
+            <Button
+              onClick={() => (window.location.href = "/events")}
+              variant="outline"
+              className="w-full border-white/20 text-white hover:bg-white/10"
+            >
+              Browse Events
+            </Button>
+            <Button
+              onClick={() => (window.location.href = "/challenges")}
+              variant="outline"
+              className="w-full border-white/20 text-white hover:bg-white/10"
+            >
+              Try Challenges
             </Button>
           </div>
         </motion.div>
@@ -325,16 +304,16 @@ export default function JoinUsPage() {
           </div>
         </section>
 
-        {/* Registration Form */}
+        {/* Call to Action */}
         <section className="px-6 py-16 bg-gradient-to-r from-slate-900/50 to-purple-900/50">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto text-center">
             <motion.h2
-              className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+              className="text-4xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              Start Your Journey
+              Ready to Start Coding?
             </motion.h2>
 
             <motion.div
@@ -343,129 +322,23 @@ export default function JoinUsPage() {
               viewport={{ once: true }}
             >
               <Card className="bg-gradient-to-br from-slate-800 to-slate-700 border border-purple-500/30">
-                <CardContent className="p-8">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <Label
-                          htmlFor="name"
-                          className="text-white font-medium"
-                        >
-                          Full Name *
-                        </Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="mt-2 bg-slate-700 border-slate-600 text-white placeholder-gray-400"
-                          placeholder="Enter your full name"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="age" className="text-white font-medium">
-                          Age *
-                        </Label>
-                        <Input
-                          id="age"
-                          name="age"
-                          type="number"
-                          min="5"
-                          max="17"
-                          value={formData.age}
-                          onChange={handleInputChange}
-                          required
-                          className="mt-2 bg-slate-700 border-slate-600 text-white placeholder-gray-400"
-                          placeholder="Your age"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="email" className="text-white font-medium">
-                        Email Address *
-                      </Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="mt-2 bg-slate-700 border-slate-600 text-white placeholder-gray-400"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-
-                    <div>
-                      <Label
-                        htmlFor="parentEmail"
-                        className="text-white font-medium"
-                      >
-                        Parent/Guardian Email *
-                      </Label>
-                      <Input
-                        id="parentEmail"
-                        name="parentEmail"
-                        type="email"
-                        value={formData.parentEmail}
-                        onChange={handleInputChange}
-                        required
-                        className="mt-2 bg-slate-700 border-slate-600 text-white placeholder-gray-400"
-                        placeholder="parent@example.com"
-                      />
-                    </div>
-
-                    <div>
-                      <Label
-                        htmlFor="experience"
-                        className="text-white font-medium"
-                      >
-                        Coding Experience
-                      </Label>
-                      <select
-                        id="experience"
-                        name="experience"
-                        value={formData.experience}
-                        onChange={handleInputChange}
-                        className="mt-2 w-full bg-slate-700 border border-slate-600 text-white rounded-md px-3 py-2"
-                      >
-                        <option value="beginner">Complete Beginner</option>
-                        <option value="some">Some Experience</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <Label
-                        htmlFor="interests"
-                        className="text-white font-medium"
-                      >
-                        What interests you most about coding?
-                      </Label>
-                      <Textarea
-                        id="interests"
-                        name="interests"
-                        value={formData.interests}
-                        onChange={handleInputChange}
-                        rows={4}
-                        className="mt-2 bg-slate-700 border-slate-600 text-white placeholder-gray-400 resize-none"
-                        placeholder="Tell us what excites you about programming..."
-                      />
-                    </div>
-
-                    <div className="text-center">
-                      <Button
-                        type="submit"
-                        className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
-                      >
-                        <Sparkles className="mr-2 w-5 h-5" />
-                        Join JengaCode Now!
-                      </Button>
-                    </div>
-                  </form>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-300 mb-6 text-lg">
+                    Create your free account and start your coding adventure today!
+                    Join our community of young innovators and unlock your potential.
+                  </p>
+                  
+                  <Button
+                    onClick={handleJoinNow}
+                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white py-4 rounded-full font-bold text-xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
+                  >
+                    <Sparkles className="mr-2 w-6 h-6" />
+                    Join JengaCode Now - It's Free!
+                  </Button>
+                  
+                  <p className="text-sm text-gray-400 mt-4">
+                    No credit card required • Start learning immediately • Safe & secure
+                  </p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -531,6 +404,12 @@ export default function JoinUsPage() {
           </div>
         </section>
       </div>
+      
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        defaultTab="register"
+      />
     </div>
   );
 }
