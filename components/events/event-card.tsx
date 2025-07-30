@@ -18,8 +18,13 @@ interface EventCardProps {
 }
 
 export function EventCard({ event, onViewDetails }: EventCardProps) {
+  const { user } = useAuth();
   const featuredImage =
     event.images.find((img) => img.featured) || event.images[0];
+
+  const isRegistered = user ? attendanceService.isUserRegistered(user.id, event.id) : false;
+  const hasAttended = user ? attendanceService.hasUserAttended(user.id, event.id) : false;
+  const isEventPast = new Date(event.date) < new Date();
 
   return (
     <motion.div
