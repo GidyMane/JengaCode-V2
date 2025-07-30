@@ -2,6 +2,7 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navigation } from "@/components/ui/navigation";
+import { AuthProvider } from "@/components/auth/auth-provider";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        {children}
-        <Toaster position="top-right" />
+        <AuthProvider>
+          <Navigation />
+          {children}
+          <Toaster position="top-right" />
+        </AuthProvider>
       </body>
     </html>
   );
