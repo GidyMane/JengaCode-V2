@@ -86,9 +86,27 @@ export function EventCard({ event, onViewDetails }: EventCardProps) {
               <Clock className="w-4 h-4 mr-2 text-jengacode-yellow" />
               {event.duration}
             </div>
-            <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-              <Users className="w-4 h-4 mr-2 text-jengacode-purple" />
-              {event.attendees.length} participants
+            <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex items-center">
+                <Users className="w-4 h-4 mr-2 text-jengacode-purple" />
+                {event.attendees.length} participants
+              </div>
+              {user && (
+                <div className="flex space-x-1">
+                  {hasAttended && (
+                    <Badge className="bg-green-500/20 text-green-600 dark:text-green-400 border-green-500/50 text-xs">
+                      <CheckCircle className="w-3 h-3 mr-1" />
+                      Attended
+                    </Badge>
+                  )}
+                  {isRegistered && !hasAttended && (
+                    <Badge className="bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/50 text-xs">
+                      <UserPlus className="w-3 h-3 mr-1" />
+                      Registered
+                    </Badge>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
