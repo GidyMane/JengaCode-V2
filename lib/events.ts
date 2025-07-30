@@ -2,6 +2,72 @@ import { Event, EventCategory, EventFilters } from "@/types/event";
 
 export const mockEvents: Event[] = [
   {
+    id: "summer-camp-2025",
+    title: "Summer Coding Camp 2025",
+    date: "2025-08-08",
+    shortDescription: "Two-day intensive coding adventure for young innovators - August 8th & 9th",
+    fullDescription:
+      "Join us for an amazing 2-day coding adventure where kids will learn Scratch programming, build robots, and create their first web pages. The event features hands-on workshops, team challenges, and a final showcase where participants will present their projects. This year's camp focuses on collaborative learning and creative problem-solving.",
+    images: [
+      {
+        id: "img_camp2025_1",
+        url: "https://images.unsplash.com/photo-1596443686812-2c72aaab1b48?w=800&h=600&fit=crop",
+        alt: "Kids programming robots at summer camp",
+        caption: "Young coders programming their first robots",
+        featured: true,
+      },
+      {
+        id: "img_camp2025_2",
+        url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop",
+        alt: "Group coding session",
+        caption: "Collaborative coding session during camp",
+        featured: false,
+      },
+      {
+        id: "img_camp2025_3",
+        url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop",
+        alt: "Project showcase",
+        caption: "Final project presentations on day 2",
+        featured: false,
+      },
+    ],
+    attendees: [], // Will be populated as kids register and attend
+    activities: [
+      {
+        id: "act_camp2025_1",
+        name: "Scratch Programming",
+        description: "Learn programming basics with visual blocks",
+        icon: "🧩",
+        participants: 0, // Will be updated as camp progresses
+      },
+      {
+        id: "act_camp2025_2",
+        name: "Robot Building",
+        description: "Build and program Arduino robots",
+        icon: "🤖",
+        participants: 0,
+      },
+      {
+        id: "act_camp2025_3",
+        name: "Web Development",
+        description: "Create your first website",
+        icon: "🌐",
+        participants: 0,
+      },
+      {
+        id: "act_camp2025_4",
+        name: "Team Challenges",
+        description: "Collaborative problem-solving activities",
+        icon: "🏆",
+        participants: 0,
+      },
+    ],
+    category: "camp",
+    featured: true,
+    location: "JengaCode Innovation Hub",
+    duration: "2 days (August 8-9, 2025)",
+  },
+  {
     id: "1",
     title: "Summer Coding Camp 2024",
     date: "2024-08-15",

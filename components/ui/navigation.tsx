@@ -22,7 +22,10 @@ export function Navigation() {
 
   const userNavItems = user ? [
     { href: "/dashboard", label: "My Dashboard", icon: Calendar },
-    ...(user.isAdmin ? [{ href: "/admin/attendance", label: "Admin Panel", icon: Shield }] : []),
+    ...(user.isAdmin ? [
+      { href: "/admin/attendance", label: "Admin Panel", icon: Shield },
+      { href: "/admin/summer-camp-attendance", label: "Summer Camp", icon: Calendar }
+    ] : []),
   ] : [];
 
   return (
