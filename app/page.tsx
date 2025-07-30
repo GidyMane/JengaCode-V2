@@ -43,6 +43,7 @@ export default function JengaCodeLanding() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string | null>(null);
   const [showEventSchedule, setShowEventSchedule] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
