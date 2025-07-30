@@ -46,12 +46,20 @@ export default function JengaCodeLanding() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Generate consistent positions for background elements
+  const backgroundElements = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: ((i * 23.7) % 100),
+    top: ((i * 17.3) % 100),
+  }));
 
   const ageGroups = [
     {
