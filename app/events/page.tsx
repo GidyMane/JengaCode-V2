@@ -15,14 +15,6 @@ import Link from "next/link";
 import { getUpcomingEvents, getPastEvents } from "@/lib/events";
 import type { Event } from "@/lib/events";
 import { Calendar, MapPin, Clock, Users } from "lucide-react";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Events - JengaCode Workshops & Bootcamps",
-  description:
-    "Explore upcoming and past JengaCode events including coding bootcamps, robotics workshops, and tech challenges.",
-  keywords: "events, workshops, bootcamps, robotics, coding challenges, JengaCode",
-};
 
 export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
