@@ -80,7 +80,7 @@ class AuthService {
     await delay(1000); // Simulate API call
 
     const users = this.getUsers();
-    
+
     // Check if user already exists
     if (users.find(u => u.email === userData.email)) {
       return { success: false, error: "User with this email already exists" };
@@ -93,7 +93,7 @@ class AuthService {
       name: userData.name,
       age: userData.age,
       parentEmail: userData.parentEmail,
-      isAdmin: false,
+      role: "User",
       createdAt: new Date().toISOString(),
     };
 
