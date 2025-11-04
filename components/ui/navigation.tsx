@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,11 @@ import { Menu, X, Calendar, Shield } from "lucide-react";
 export function Navigation() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -22,7 +27,7 @@ export function Navigation() {
     { href: "/contact", label: "Contact" },
   ];
 
-  const userNavItems = user ? [
+  const userNavItems = isClient && user ? [
     { href: "/dashboard", label: "My Dashboard", icon: Calendar },
     ...(user.isAdmin ? [
       { href: "/admin/attendance", label: "Admin Panel", icon: Shield },
