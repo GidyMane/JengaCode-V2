@@ -10,9 +10,7 @@ import Image from "next/image";
 import { Calendar, Clock, User, ArrowRight } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ShareButtons } from "@/components/social/share-buttons";
-import type { Metadata } from "next";
 
-// Metadata needs to be generated dynamically in Next.js 14, but we'll use useParams instead
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params.slug as string;
