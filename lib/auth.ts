@@ -160,17 +160,43 @@ class AuthService {
   // Initialize demo admin user
   async initializeDemo(): Promise<void> {
     const users = this.getUsers();
-    
+
     // Create admin user if none exists
-    if (!users.find(u => u.isAdmin)) {
+    if (!users.find(u => u.role === "Admin")) {
       const adminUser: User = {
         id: "admin_demo",
         email: "admin@jengacode.org",
         name: "JengaCode Admin",
-        isAdmin: true,
+        role: "Admin",
         createdAt: new Date().toISOString(),
       };
       users.push(adminUser);
+      this.saveUsers(users);
+    }
+
+    // Create editor user if none exists
+    if (!users.find(u => u.role === "Editor")) {
+      const editorUser: User = {
+        id: "editor_demo",
+        email: "editor@jengacode.org",
+        name: "JengaCode Editor",
+        role: "Editor",
+        createdAt: new Date().toISOString(),
+      };
+      users.push(editorUser);
+      this.saveUsers(users);
+    }
+
+    // Create volunteer user if none exists
+    if (!users.find(u => u.role === "Volunteer")) {
+      const volunteerUser: User = {
+        id: "volunteer_demo",
+        email: "volunteer@jengacode.org",
+        name: "JengaCode Volunteer",
+        role: "Volunteer",
+        createdAt: new Date().toISOString(),
+      };
+      users.push(volunteerUser);
       this.saveUsers(users);
     }
   }
