@@ -14,9 +14,11 @@ export function Navigation() {
 
   const navItems = [
     { href: "/", label: "Home" },
-    { href: "/events", label: "Events" },
-    { href: "/challenges", label: "Challenges" },
     { href: "/about", label: "About" },
+    { href: "/events", label: "Events" },
+    { href: "/gallery", label: "Gallery" },
+    { href: "/blog", label: "Blog" },
+    { href: "/challenges", label: "Challenges" },
     { href: "/contact", label: "Contact" },
   ];
 
