@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -11,16 +11,23 @@ import { Menu, X, Calendar, Shield } from "lucide-react";
 export function Navigation() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const navItems = [
     { href: "/", label: "Home" },
-    { href: "/events", label: "Events" },
-    { href: "/challenges", label: "Challenges" },
     { href: "/about", label: "About" },
+    { href: "/events", label: "Events" },
+    { href: "/gallery", label: "Gallery" },
+    { href: "/blog", label: "Blog" },
+    { href: "/challenges", label: "Challenges" },
     { href: "/contact", label: "Contact" },
   ];
 
-  const userNavItems = user ? [
+  const userNavItems = isClient && user ? [
     { href: "/dashboard", label: "My Dashboard", icon: Calendar },
     ...(user.isAdmin ? [
       { href: "/admin/attendance", label: "Admin Panel", icon: Shield },
@@ -57,7 +64,7 @@ export function Navigation() {
                 {item.label}
               </Link>
             ))}
-            {userNavItems.map((item) => (
+            {isClient && userNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -67,7 +74,7 @@ export function Navigation() {
                 {item.label}
               </Link>
             ))}
-            <UserNav />
+            {isClient && <UserNav />}
           </div>
 
           {/* Mobile menu button */}
@@ -108,7 +115,7 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              {userNavItems.map((item) => (
+              {isClient && userNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -119,9 +126,11 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <div className="pt-4">
-                <UserNav />
-              </div>
+              {isClient && (
+                <div className="pt-4">
+                  <UserNav />
+                </div>
+              )}
             </div>
           </motion.div>
         )}

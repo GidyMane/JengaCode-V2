@@ -35,22 +35,22 @@ export default function ContactPage() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
-      details: "hello@jengacode.org",
+      details: "info@jengacode.co.ke",
       description: "We typically respond within 24 hours",
       color: "from-cyan-500 to-blue-500",
     },
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Call Us",
-      details: "(555) 123-CODE",
-      description: "Monday - Friday, 9 AM - 6 PM EST",
+      details: "+254 798 813 315",
+      description: "Monday - Friday, 9 AM - 6 PM EAT",
       color: "from-purple-500 to-pink-500",
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
-      details: "123 Innovation Hub",
-      description: "Tech City, TC 12345",
+      details: "Nairobi, Kenya",
+      description: "JengaCode Innovation Hub",
       color: "from-green-500 to-teal-500",
     },
     {
@@ -415,6 +415,51 @@ export default function ContactPage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Google Map Section */}
+        <section className="px-6 py-16 bg-gradient-to-r from-slate-900/50 to-purple-900/50">
+          <div className="max-w-6xl mx-auto">
+            <motion.h2
+              className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Find Us On The Map
+            </motion.h2>
+
+            <motion.div
+              className="rounded-xl overflow-hidden border border-cyan-500/30 shadow-lg"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <iframe
+                width="100%"
+                height="500"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen={true}
+                referrerPolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8175892033976!2d36.7539!3d-1.2865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f17d6d7d5d5d5%3A0x1234567890abcdef!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1234567890123"
+              />
+            </motion.div>
+
+            <motion.div
+              className="mt-8 bg-gradient-to-br from-slate-800 to-slate-700 border border-cyan-500/30 rounded-xl p-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <p className="text-gray-300 text-center">
+                Visit our JengaCode Innovation Hub in Nairobi to see our amazing facilities,
+                meet our team, and explore opportunities for young innovators to learn coding
+                and robotics in a vibrant, supportive environment.
+              </p>
+            </motion.div>
           </div>
         </section>
       </div>
