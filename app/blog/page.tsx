@@ -1,3 +1,5 @@
+"use client";
+
 import type React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,14 +8,6 @@ import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/blog";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Blog - JengaCode News & Insights",
-  description:
-    "Read stories about JengaCode students, tutorials, tech education insights, and announcements from our community.",
-  keywords: "blog, news, articles, tech education, coding, tutorials, success stories",
-};
 
 export default function BlogPage() {
   const allPosts = getAllBlogPosts();
