@@ -35,22 +35,22 @@ export default function ContactPage() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
-      details: "hello@jengacode.org",
+      details: "info@jengacode.co.ke",
       description: "We typically respond within 24 hours",
       color: "from-cyan-500 to-blue-500",
     },
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Call Us",
-      details: "(555) 123-CODE",
-      description: "Monday - Friday, 9 AM - 6 PM EST",
+      details: "+254 798 813 315",
+      description: "Monday - Friday, 9 AM - 6 PM EAT",
       color: "from-purple-500 to-pink-500",
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
-      details: "123 Innovation Hub",
-      description: "Tech City, TC 12345",
+      details: "Nairobi, Kenya",
+      description: "JengaCode Innovation Hub",
       color: "from-green-500 to-teal-500",
     },
     {
