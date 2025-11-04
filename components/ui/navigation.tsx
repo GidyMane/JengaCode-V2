@@ -115,7 +115,7 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              {userNavItems.map((item) => (
+              {isClient && userNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -126,9 +126,11 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <div className="pt-4">
-                <UserNav />
-              </div>
+              {isClient && (
+                <div className="pt-4">
+                  <UserNav />
+                </div>
+              )}
             </div>
           </motion.div>
         )}
