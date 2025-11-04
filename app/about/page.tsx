@@ -15,16 +15,7 @@ import {
   Award,
   Globe,
 } from "lucide-react";
-import type { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "About JengaCode - Our Mission & Team",
-  description:
-    "Learn about JengaCode's mission to democratize tech education for young people in Kenya. Meet our team of passionate educators and innovators.",
-  keywords:
-    "JengaCode, about us, team, mission, vision, values, coding education, Kenya",
-};
 
 export default function AboutPage() {
   const teamMembers = getAllTeamMembers();
