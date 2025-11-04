@@ -1,13 +1,19 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+export type UserRole = "Admin" | "Editor" | "Volunteer" | "User";
+
 export interface User {
   id: string;
   email: string;
   name: string;
   age?: number;
   parentEmail?: string;
-  isAdmin: boolean;
+  role: UserRole;
   createdAt: string;
+}
+
+export interface AdminUser extends User {
+  role: "Admin" | "Editor" | "Volunteer";
 }
 
 export interface AuthContextType {
