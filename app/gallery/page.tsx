@@ -13,15 +13,7 @@ import {
   getGalleryByCategory,
 } from "@/lib/gallery";
 import Image from "next/image";
-import type { Metadata } from "next";
 import { Filter } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: "Gallery - JengaCode Events & Activities",
-  description:
-    "Explore our photo gallery showcasing JengaCode events, workshops, and student achievements across Kenya.",
-  keywords: "gallery, photos, events, JengaCode, workshops, achievements",
-};
 
 export default function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
