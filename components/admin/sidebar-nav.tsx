@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -71,7 +72,7 @@ const NAV_ITEMS: NavItem[] = [
 
 export function AdminSidebarNav() {
   const pathname = usePathname();
-  const { user, logout } = useKindeAuth();
+  const { user } = useKindeAuth();
 
   return (
     <div className="h-screen w-64 bg-gradient-to-b from-jengacode-purple to-purple-900 text-white flex flex-col shadow-lg">
@@ -113,17 +114,22 @@ export function AdminSidebarNav() {
 
       <div className="p-4 border-t border-purple-800 space-y-2">
         <div className="px-2 py-3 bg-purple-800 rounded-lg">
-          <p className="text-sm font-semibold">{user?.name || "Admin"}</p>
-          <p className="text-xs text-purple-300">{user?.role || "admin"}</p>
+          <p className="text-sm font-semibold">
+            {user?.given_name && user?.family_name
+              ? `${user.given_name} ${user.family_name}`
+              : user?.email || "Admin"}
+          </p>
+          <p className="text-xs text-purple-300">{user?.email || "admin"}</p>
         </div>
-        <Button
-          variant="outline"
-          className="w-full justify-start gap-2 text-white border-purple-700 hover:bg-purple-800"
-          onClick={() => logout()}
-        >
-          <LogOut className="w-4 h-4" />
-          Logout
-        </Button>
+        <LogoutLink>
+          <Button
+            variant="outline"
+            className="w-full justify-start gap-2 text-white border-purple-700 hover:bg-purple-800"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </Button>
+        </LogoutLink>
       </div>
     </div>
   );

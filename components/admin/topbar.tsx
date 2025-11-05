@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ interface TopbarProps {
 }
 
 export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
-  const { user, logout } = useKindeAuth();
+  const { user } = useKindeAuth();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -75,14 +76,16 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="gap-2">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-jengacode-purple to-jengacode-cyan flex items-center justify-center text-white font-semibold text-sm">
-                {user?.name?.charAt(0).toUpperCase() || "A"}
+                {(user?.given_name || user?.email)?.charAt(0).toUpperCase() || "A"}
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                  {user?.name || "Admin"}
+                  {user?.given_name && user?.family_name
+                    ? `${user.given_name} ${user.family_name}`
+                    : user?.email || "Admin"}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {user?.role || "admin"}
+                  {user?.email || "admin"}
                 </p>
               </div>
             </Button>
@@ -90,7 +93,9 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
           <DropdownMenuContent align="end" className="w-56">
             <div className="px-2 py-1.5">
               <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                {user?.name || "Admin"}
+                {user?.given_name && user?.family_name
+                  ? `${user.given_name} ${user.family_name}`
+                  : user?.email || "Admin"}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 {user?.email}
@@ -99,12 +104,11 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="text-red-600 dark:text-red-400 cursor-pointer"
-              onClick={() => logout()}
-            >
-              Logout
-            </DropdownMenuItem>
+            <LogoutLink>
+              <DropdownMenuItem className="text-red-600 dark:text-red-400 cursor-pointer">
+                Logout
+              </DropdownMenuItem>
+            </LogoutLink>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
