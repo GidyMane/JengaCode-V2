@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAuth } from "@/lib/auth";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
