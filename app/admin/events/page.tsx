@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { AdminLayout } from "@/components/admin/admin-layout";
+import { KindeAdminLayout } from "@/components/admin/kinde-admin-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -179,7 +179,7 @@ export default function EventsManagement() {
   });
 
   return (
-    <AdminLayout title="Events Management">
+    <KindeAdminLayout title="Events Management">
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
           <div className="flex-1 w-full">
@@ -480,6 +480,6 @@ export default function EventsManagement() {
           </AlertDialogContent>
         </AlertDialogContent>
       </AlertDialog>
-    </AdminLayout>
+    </KindeAdminLayout>
   );
 }
