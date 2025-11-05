@@ -41,7 +41,14 @@ export function KindeAdminLayout({
       }
 
       try {
-        const response = await fetch("/api/auth/user");
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+        const response = await fetch("/api/auth/user", {
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
         if (response.ok) {
           const userData = await response.json();
           setDbUser(userData);
@@ -50,6 +57,7 @@ export function KindeAdminLayout({
             setAccessDenied(true);
           }
         } else {
+          console.error("Failed to fetch user - status:", response.status);
           setAccessDenied(true);
         }
       } catch (error) {
