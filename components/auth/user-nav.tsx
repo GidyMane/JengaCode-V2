@@ -18,12 +18,33 @@ import { User, LogOut, Settings } from "lucide-react";
 export function UserNav() {
   const { user, isLoading } = useKindeAuth();
   const [mounted, setMounted] = useState(false);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted || isLoading) {
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setLoadingTimeout(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+    setLoadingTimeout(false);
+  }, [isLoading]);
+
+  // Show skeleton only briefly, then show login buttons as fallback
+  if (!mounted) {
+    return (
+      <div className="flex items-center space-x-2">
+        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
+        <div className="w-16 h-4 bg-gray-300 rounded animate-pulse"></div>
+      </div>
+    );
+  }
+
+  if (isLoading && !loadingTimeout) {
     return (
       <div className="flex items-center space-x-2">
         <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
