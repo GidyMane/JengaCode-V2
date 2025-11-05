@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { useRouter } from "next/navigation";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { AdminSidebarNav } from "./sidebar-nav";
 import { AdminTopbar } from "./topbar";
 import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface KindeAdminLayoutProps {
   children: React.ReactNode;
@@ -27,12 +29,6 @@ export function KindeAdminLayout({
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated && mounted) {
-      router.push("/api/auth/login?post_login_redirect_url=/admin");
-    }
-  }, [isAuthenticated, isLoading, router, mounted]);
-
   if (!mounted || isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50 dark:bg-slate-950">
@@ -44,8 +40,20 @@ export function KindeAdminLayout({
     );
   }
 
-  if (!isAuthenticated) {
-    return null;
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-50 dark:bg-slate-950">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Access Restricted</h1>
+          <p className="text-gray-600 dark:text-gray-400">You need to be signed in to access this page.</p>
+          <LoginLink>
+            <Button className="bg-jengacode-purple hover:bg-jengacode-purple/90 text-white">
+              Sign In
+            </Button>
+          </LoginLink>
+        </div>
+      </div>
+    );
   }
 
   return (
