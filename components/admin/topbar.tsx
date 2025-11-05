@@ -19,7 +19,7 @@ interface TopbarProps {
 }
 
 export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
-  const { user, signOut } = useAuth();
+  const { user, logout } = useKindeAuth();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
