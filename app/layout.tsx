@@ -2,7 +2,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navigation } from "@/components/ui/navigation";
-import { AuthProvider } from "@/components/auth/auth-provider";
 import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -25,11 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <KindeProvider>
-          <AuthProvider>
-            <Navigation />
-            {children}
-            <Toaster position="top-right" />
-          </AuthProvider>
+          <Navigation />
+          {children}
+          <Toaster position="top-right" />
         </KindeProvider>
       </body>
     </html>
