@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { AdminLayout } from "@/components/admin/admin-layout";
+import { KindeAdminLayout } from "@/components/admin/kinde-admin-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -153,7 +153,7 @@ export default function ChallengesManagement() {
   };
 
   return (
-    <AdminLayout title="Challenges Management">
+    <KindeAdminLayout title="Challenges Management">
       <div className="space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -466,6 +466,6 @@ export default function ChallengesManagement() {
           </AlertDialogContent>
         </AlertDialogContent>
       </AlertDialog>
-    </AdminLayout>
+    </KindeAdminLayout>
   );
 }
