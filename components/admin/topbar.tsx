@@ -75,14 +75,14 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="gap-2">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-jengacode-purple to-jengacode-cyan flex items-center justify-center text-white font-semibold text-sm">
-                {user?.name?.charAt(0).toUpperCase()}
+                {user?.name?.charAt(0).toUpperCase() || "A"}
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                  {user?.name}
+                  {user?.name || "Admin"}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {user?.role}
+                  {user?.role || "admin"}
                 </p>
               </div>
             </Button>
@@ -90,7 +90,7 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
           <DropdownMenuContent align="end" className="w-56">
             <div className="px-2 py-1.5">
               <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                {user?.name}
+                {user?.name || "Admin"}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 {user?.email}
@@ -98,11 +98,10 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile Settings</DropdownMenuItem>
-            <DropdownMenuItem>Change Password</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="text-red-600 dark:text-red-400 cursor-pointer"
-              onClick={() => signOut()}
+              onClick={() => logout()}
             >
               Logout
             </DropdownMenuItem>
