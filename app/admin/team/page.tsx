@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { AdminLayout } from "@/components/admin/admin-layout";
+import { KindeAdminLayout } from "@/components/admin/kinde-admin-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -125,7 +125,7 @@ export default function TeamManagement() {
   );
 
   return (
-    <AdminLayout title="Team Management">
+    <KindeAdminLayout title="Team Management">
       <div className="space-y-6">
         {/* Stats Card */}
         <Card>
@@ -343,6 +343,6 @@ export default function TeamManagement() {
           </AlertDialogContent>
         </AlertDialogContent>
       </AlertDialog>
-    </AdminLayout>
+    </KindeAdminLayout>
   );
 }
