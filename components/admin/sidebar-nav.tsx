@@ -71,7 +71,7 @@ const NAV_ITEMS: NavItem[] = [
 
 export function AdminSidebarNav() {
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user, logout } = useKindeAuth();
 
   return (
     <div className="h-screen w-64 bg-gradient-to-b from-jengacode-purple to-purple-900 text-white flex flex-col shadow-lg">
