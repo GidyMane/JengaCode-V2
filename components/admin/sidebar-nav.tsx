@@ -15,7 +15,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/auth";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
