@@ -9,13 +9,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle as CardUITitl
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultTab?: "login" | "register";
+  defaultTab?: "login" | "register"; // deprecated, kept for compatibility
 }
 
 export function AuthModal({
   isOpen,
   onClose,
-  defaultTab = "login",
 }: AuthModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
