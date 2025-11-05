@@ -1,13 +1,19 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+export type UserRole = "Admin" | "Editor" | "Volunteer" | "User";
+
 export interface User {
   id: string;
   email: string;
   name: string;
   age?: number;
   parentEmail?: string;
-  isAdmin: boolean;
+  role: UserRole;
   createdAt: string;
+}
+
+export interface AdminUser extends User {
+  role: "Admin" | "Editor" | "Volunteer";
 }
 
 export interface AuthContextType {
@@ -74,7 +80,7 @@ class AuthService {
     await delay(1000); // Simulate API call
 
     const users = this.getUsers();
-    
+
     // Check if user already exists
     if (users.find(u => u.email === userData.email)) {
       return { success: false, error: "User with this email already exists" };
@@ -87,7 +93,7 @@ class AuthService {
       name: userData.name,
       age: userData.age,
       parentEmail: userData.parentEmail,
-      isAdmin: false,
+      role: "User",
       createdAt: new Date().toISOString(),
     };
 
@@ -154,17 +160,43 @@ class AuthService {
   // Initialize demo admin user
   async initializeDemo(): Promise<void> {
     const users = this.getUsers();
-    
+
     // Create admin user if none exists
-    if (!users.find(u => u.isAdmin)) {
+    if (!users.find(u => u.role === "Admin")) {
       const adminUser: User = {
         id: "admin_demo",
         email: "admin@jengacode.org",
         name: "JengaCode Admin",
-        isAdmin: true,
+        role: "Admin",
         createdAt: new Date().toISOString(),
       };
       users.push(adminUser);
+      this.saveUsers(users);
+    }
+
+    // Create editor user if none exists
+    if (!users.find(u => u.role === "Editor")) {
+      const editorUser: User = {
+        id: "editor_demo",
+        email: "editor@jengacode.org",
+        name: "JengaCode Editor",
+        role: "Editor",
+        createdAt: new Date().toISOString(),
+      };
+      users.push(editorUser);
+      this.saveUsers(users);
+    }
+
+    // Create volunteer user if none exists
+    if (!users.find(u => u.role === "Volunteer")) {
+      const volunteerUser: User = {
+        id: "volunteer_demo",
+        email: "volunteer@jengacode.org",
+        name: "JengaCode Volunteer",
+        role: "Volunteer",
+        createdAt: new Date().toISOString(),
+      };
+      users.push(volunteerUser);
       this.saveUsers(users);
     }
   }

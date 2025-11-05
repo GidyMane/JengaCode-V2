@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  kindeId   String   @unique
+  role      String   @default("user") // "admin", "editor", "volunteer", "user"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events           Event[]
+  blogPosts        BlogPost[]
+  media            Media[]
+  testimonials     Testimonial[]
+  challenges       Challenge[]
+  teamMembers      TeamMember[]
+
+  @@map("users")
+}
+
+model Event {
+  id                String   @id @default(cuid())
+  title             String
+  slug              String   @unique
+  shortDescription  String
+  fullDescription   String   @db.Text
+  date              String
+  location          String
+  ageRange          String?
+  price             Float?
+  capacity          Int?
+  registered        Int?      @default(0)
+  category          String    @default("workshop") // workshop, camp, competition, showcase, community, bootcamp, challenge, other
+  featured          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  createdById       String
+  createdBy         User      @relation(fields: [createdById], references: [id])
+
+  images     EventImage[]
+  attendees  Attendee[]
+  activities Activity[]
+  media      Media[]
+
+  @@map("events")
+}
+
+model EventImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  caption   String?
+  featured  Boolean  @default(false)
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("event_images")
+}
+
+model Attendee {
+  id          String  @id @default(cuid())
+  name        String
+  email       String?
+  age         Int?
+  avatar      String?
+  achievement String?
+  eventId     String
+  event       Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("attendees")
+}
+
+model Activity {
+  id           String @id @default(cuid())
+  name         String
+  description  String @db.Text
+  icon         String
+  participants Int    @default(0)
+  eventId      String
+  event        Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("activities")
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  body        String   @db.Text
+  coverImage  String?
+  category    String   @default("News")
+  status      String   @default("draft") // draft, published
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+
+  @@map("blog_posts")
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  caption   String?
+  type      String   @default("image") // image, video, document
+  eventId   String?
+  createdAt DateTime @default(now())
+  uploadedById String
+  uploadedBy  User   @relation(fields: [uploadedById], references: [id])
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@map("media")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   @default("Student") // Student, Parent
+  text      String   @db.Text
+  photo     String?
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  createdById String
+  createdBy User    @relation(fields: [createdById], references: [id])
+
+  @@map("testimonials")
+}
+
+model Challenge {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  difficulty  String   @default("easy") // easy, medium, hard
+  xp          Int      @default(100)
+  resourceLink String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+
+  @@map("challenges")
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String   @db.Text
+  photo     String?
+  linkedin  String?
+  createdAt DateTime @default(now())
+  createdById String
+  createdBy User    @relation(fields: [createdById], references: [id])
+
+  @@map("team_members")
+}
