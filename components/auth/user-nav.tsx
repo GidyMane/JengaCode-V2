@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { LoginLink, RegisterLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import {
@@ -17,12 +17,29 @@ import { User, LogOut, Settings } from "lucide-react";
 
 export function UserNav() {
   const { user, isLoading } = useKindeAuth();
+  const [mounted, setMounted] = useState(false);
 
-  if (isLoading) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't show skeleton on first render - show fallback UI instead
+  if (!mounted) {
     return (
       <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
-        <div className="w-16 h-4 bg-gray-300 rounded animate-pulse"></div>
+        <LoginLink>
+          <Button
+            variant="ghost"
+            className="text-white hover:bg-white/10"
+          >
+            Sign In
+          </Button>
+        </LoginLink>
+        <RegisterLink>
+          <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white">
+            Join Now
+          </Button>
+        </RegisterLink>
       </div>
     );
   }
