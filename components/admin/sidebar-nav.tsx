@@ -113,13 +113,13 @@ export function AdminSidebarNav() {
 
       <div className="p-4 border-t border-purple-800 space-y-2">
         <div className="px-2 py-3 bg-purple-800 rounded-lg">
-          <p className="text-sm font-semibold">{user?.name}</p>
-          <p className="text-xs text-purple-300">{user?.role}</p>
+          <p className="text-sm font-semibold">{user?.name || "Admin"}</p>
+          <p className="text-xs text-purple-300">{user?.role || "admin"}</p>
         </div>
         <Button
           variant="outline"
           className="w-full justify-start gap-2 text-white border-purple-700 hover:bg-purple-800"
-          onClick={() => signOut()}
+          onClick={() => logout()}
         >
           <LogOut className="w-4 h-4" />
           Logout
