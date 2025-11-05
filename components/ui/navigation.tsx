@@ -1,21 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UserNav } from "@/components/auth/user-nav";
-import { useAuth } from "@/lib/auth";
 import { Menu, X, Calendar, Shield } from "lucide-react";
 
 export function Navigation() {
-  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -26,14 +19,6 @@ export function Navigation() {
     { href: "/challenges", label: "Challenges" },
     { href: "/contact", label: "Contact" },
   ];
-
-  const userNavItems = isClient && user ? [
-    { href: "/dashboard", label: "My Dashboard", icon: Calendar },
-    ...(user.isAdmin ? [
-      { href: "/admin/attendance", label: "Admin Panel", icon: Shield },
-      { href: "/admin/summer-camp-attendance", label: "Summer Camp", icon: Calendar }
-    ] : []),
-  ] : [];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-lg border-b border-white/20">
@@ -64,17 +49,7 @@ export function Navigation() {
                 {item.label}
               </Link>
             ))}
-            {isClient && userNavItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-white hover:text-jengacode-cyan transition-colors duration-300 font-medium flex items-center"
-              >
-                <item.icon className="w-4 h-4 mr-1" />
-                {item.label}
-              </Link>
-            ))}
-            {isClient && <UserNav />}
+            <UserNav />
           </div>
 
           {/* Mobile menu button */}
@@ -115,22 +90,9 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              {isClient && userNavItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block text-white hover:text-jengacode-cyan-light transition-colors duration-300 font-medium py-2 flex items-center"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <item.icon className="w-4 h-4 mr-2" />
-                  {item.label}
-                </Link>
-              ))}
-              {isClient && (
-                <div className="pt-4">
-                  <UserNav />
-                </div>
-              )}
+              <div className="pt-4">
+                <UserNav />
+              </div>
             </div>
           </motion.div>
         )}
