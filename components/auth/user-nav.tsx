@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { LoginLink, RegisterLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import {
@@ -17,8 +17,13 @@ import { User, LogOut, Settings } from "lucide-react";
 
 export function UserNav() {
   const { user, isLoading } = useKindeAuth();
+  const [mounted, setMounted] = useState(false);
 
-  if (isLoading) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || isLoading) {
     return (
       <div className="flex items-center space-x-2">
         <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
