@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { AdminLayout } from "@/components/admin/admin-layout";
+import { KindeAdminLayout } from "@/components/admin/kinde-admin-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -162,7 +162,7 @@ export default function UsersManagement() {
   };
 
   return (
-    <AdminLayout title="Users Management" requiredRoles={["Admin"]}>
+    <KindeAdminLayout title="Users Management" requiredRoles={["admin"]}>
       <div className="space-y-6">
         {/* Role Distribution Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -471,6 +471,6 @@ export default function UsersManagement() {
           </AlertDialogContent>
         </AlertDialogContent>
       </AlertDialog>
-    </AdminLayout>
+    </KindeAdminLayout>
   );
 }
