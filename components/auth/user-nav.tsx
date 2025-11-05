@@ -18,37 +18,28 @@ import { User, LogOut, Settings } from "lucide-react";
 export function UserNav() {
   const { user, isLoading } = useKindeAuth();
   const [mounted, setMounted] = useState(false);
-  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (isLoading) {
-      const timer = setTimeout(() => {
-        setLoadingTimeout(true);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-    setLoadingTimeout(false);
-  }, [isLoading]);
-
-  // Show skeleton only briefly, then show login buttons as fallback
+  // Don't show skeleton on first render - show fallback UI instead
   if (!mounted) {
     return (
       <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
-        <div className="w-16 h-4 bg-gray-300 rounded animate-pulse"></div>
-      </div>
-    );
-  }
-
-  if (isLoading && !loadingTimeout) {
-    return (
-      <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
-        <div className="w-16 h-4 bg-gray-300 rounded animate-pulse"></div>
+        <LoginLink>
+          <Button
+            variant="ghost"
+            className="text-white hover:bg-white/10"
+          >
+            Sign In
+          </Button>
+        </LoginLink>
+        <RegisterLink>
+          <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white">
+            Join Now
+          </Button>
+        </RegisterLink>
       </div>
     );
   }
