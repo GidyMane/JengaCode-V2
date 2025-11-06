@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  kindeId   String   @unique
-  role      String   @default("user") // "admin", "editor", "volunteer", "user"
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String         @id @default(cuid())
+  email        String         @unique
+  name         String
+  kindeId      String         @unique
+  role         String         @default("user") // "admin", "editor", "volunteer", "user"
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   events           Event[]
   blogPosts        BlogPost[]
@@ -27,28 +27,30 @@ model User {
 }
 
 model Event {
-  id                String   @id @default(cuid())
-  title             String
-  slug              String   @unique
-  shortDescription  String
-  fullDescription   String   @db.Text
-  date              String
-  location          String
-  ageRange          String?
-  price             Float?
-  capacity          Int?
-  registered        Int?      @default(0)
-  category          String    @default("workshop") // workshop, camp, competition, showcase, community, bootcamp, challenge, other
-  featured          Boolean   @default(false)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  createdById       String
-  createdBy         User      @relation(fields: [createdById], references: [id])
+  id               String        @id @default(cuid())
+  title            String
+  slug             String        @unique
+  shortDescription String
+  fullDescription  String        @db.Text
+  date             DateTime      // Use proper date type for filtering/sorting
+  location         String
+  ageRange         String?
+  price            Float?
+  capacity         Int?
+  registered       Int?          @default(0)
+  category         String        @default("workshop") // workshop, camp, competition, etc.
+  featured         Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
-  images     EventImage[]
-  attendees  Attendee[]
-  activities Activity[]
-  media      Media[]
+  createdById      String
+  createdBy        User          @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  images           EventImage[]
+  attendees        Attendee[]
+  activities       Activity[]
+  media            Media[]
+  pastEvents       PastEvent[]
 
   @@map("events")
 }
@@ -102,65 +104,89 @@ model BlogPost {
   publishedAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
   authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@map("blog_posts")
 }
 
 model Media {
-  id        String   @id @default(cuid())
-  url       String
-  caption   String?
-  type      String   @default("image") // image, video, document
-  eventId   String?
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  url         String
+  caption     String?
+  type        String   @default("image") // image, video, document
+  eventId     String?
+  createdAt   DateTime @default(now())
   uploadedById String
-  uploadedBy  User   @relation(fields: [uploadedById], references: [id])
-  event     Event?   @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  uploadedBy  User     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  event       Event?   @relation(fields: [eventId], references: [id], onDelete: SetNull)
 
   @@map("media")
 }
 
 model Testimonial {
-  id        String   @id @default(cuid())
-  name      String
-  role      String   @default("Student") // Student, Parent
-  text      String   @db.Text
-  photo     String?
-  approved  Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  name        String
+  role        String   @default("Student")
+  text        String   @db.Text
+  photo       String?
+  approved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
   createdById String
-  createdBy User    @relation(fields: [createdById], references: [id])
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
 
   @@map("testimonials")
 }
 
 model Challenge {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  difficulty  String   @default("easy") // easy, medium, hard
-  xp          Int      @default(100)
+  id           String   @id @default(cuid())
+  title        String
+  description  String   @db.Text
+  difficulty   String   @default("easy")
+  xp           Int      @default(100)
   resourceLink String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  createdById String
-  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  createdById  String
+  createdBy    User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
 
   @@map("challenges")
 }
 
 model TeamMember {
-  id        String   @id @default(cuid())
-  name      String
-  role      String
-  bio       String   @db.Text
-  photo     String?
-  linkedin  String?
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  bio         String   @db.Text
+  photo       String?
+  linkedin    String?
+  createdAt   DateTime @default(now())
   createdById String
-  createdBy User    @relation(fields: [createdById], references: [id])
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
 
   @@map("team_members")
+}
+
+model PastEvent {
+  id           String      @id @default(cuid())
+  title        String
+  date         DateTime
+  description  String      @db.Text
+  eventId      String
+  event        Event       @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  images       PastEventImage[]
+  createdAt    DateTime    @default(now())
+
+  @@map("past_events")
+}
+
+model PastEventImage {
+  id         String     @id @default(cuid())
+  url        String
+  caption    String?
+  pastEventId String
+  pastEvent   PastEvent  @relation(fields: [pastEventId], references: [id], onDelete: Cascade)
+
+  @@map("past_event_images")
 }
