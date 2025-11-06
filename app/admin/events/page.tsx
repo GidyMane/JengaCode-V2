@@ -40,12 +40,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, Download } from "lucide-react";
+import { Plus, Edit, Trash2, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
-import { Event, EventCategory } from "@/types/event";
-import { eventService } from "@/lib/admin-services";
+import { ImageUploader } from "@/components/admin/image-uploader";
+import { format } from "date-fns";
 
-const EVENT_CATEGORIES: EventCategory[] = [
+const EVENT_CATEGORIES = [
   "workshop",
   "camp",
   "competition",
@@ -56,16 +56,38 @@ const EVENT_CATEGORIES: EventCategory[] = [
   "other",
 ];
 
+interface EventFormData {
+  title: string;
+  slug: string;
+  date: string;
+  location: string;
+  shortDescription: string;
+  fullDescription: string;
+  category: string;
+  featured: boolean;
+  capacity: number;
+  registered: number;
+  price: string;
+  ageRange: string;
+  posterUrl: string;
+}
+
+interface Event extends EventFormData {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function EventsManagement() {
   const [events, setEvents] = useState<Event[]>([]);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState<EventCategory | "all">(
-    "all"
-  );
-  const [formData, setFormData] = useState<Partial<Event>>({
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [isLoading, setIsLoading] = useState(false);
+  const [posterUrl, setPosterUrl] = useState("");
+  const [formData, setFormData] = useState<EventFormData>({
     title: "",
     slug: "",
     date: "",
@@ -76,21 +98,34 @@ export default function EventsManagement() {
     featured: false,
     capacity: 50,
     registered: 0,
-    images: [],
-    attendees: [],
-    activities: [],
+    price: "",
+    ageRange: "",
+    posterUrl: "",
   });
 
-  // Load events from localStorage
   useEffect(() => {
-    const loadedEvents = eventService.getAll();
-    setEvents(loadedEvents);
+    loadEvents();
   }, []);
+
+  const loadEvents = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/admin/events");
+      if (!response.ok) throw new Error("Failed to load events");
+      const data = await response.json();
+      setEvents(data.data || []);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to load events");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleOpenDialog = (event?: Event) => {
     if (event) {
       setEditingId(event.id);
       setFormData(event);
+      setPosterUrl(event.posterUrl);
     } else {
       setEditingId(null);
       setFormData({
@@ -104,69 +139,72 @@ export default function EventsManagement() {
         featured: false,
         capacity: 50,
         registered: 0,
-        images: [],
-        attendees: [],
-        activities: [],
+        price: "",
+        ageRange: "",
+        posterUrl: "",
       });
+      setPosterUrl("");
     }
     setOpen(true);
   };
 
-  const handleSaveEvent = () => {
+  const handleSaveEvent = async () => {
     if (!formData.title || !formData.slug || !formData.date) {
       toast.error("Please fill in all required fields");
       return;
     }
 
     try {
-      let updatedEvent: Event;
+      setIsLoading(true);
+      const payload = {
+        ...formData,
+        posterUrl: posterUrl,
+      };
+
       if (editingId) {
-        const result = eventService.update(editingId, formData);
-        if (!result) {
-          toast.error("Failed to update event");
-          return;
-        }
-        updatedEvent = result;
-        setEvents(events.map((e) => (e.id === editingId ? updatedEvent : e)));
+        const response = await fetch(`/api/admin/events/${editingId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error("Failed to update event");
+        const data = await response.json();
+        setEvents(events.map((e) => (e.id === editingId ? data.data : e)));
         toast.success("Event updated successfully");
       } else {
-        updatedEvent = eventService.create(
-          formData as Omit<Event, "id" | "createdAt" | "updatedAt">
-        );
-        setEvents([...events, updatedEvent]);
+        const response = await fetch("/api/admin/events", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error("Failed to create event");
+        const data = await response.json();
+        setEvents([...events, data.data]);
         toast.success("Event created successfully");
       }
       setOpen(false);
     } catch (error) {
-      toast.error("An error occurred");
+      toast.error(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleDeleteEvent = (id: string) => {
+  const handleDeleteEvent = async (id: string) => {
     try {
-      if (eventService.delete(id)) {
-        setEvents(events.filter((e) => e.id !== id));
-        toast.success("Event deleted successfully");
-      }
+      setIsLoading(true);
+      const response = await fetch(`/api/admin/events/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete event");
+      setEvents(events.filter((e) => e.id !== id));
+      toast.success("Event deleted successfully");
     } catch (error) {
-      toast.error("Failed to delete event");
+      toast.error(error instanceof Error ? error.message : "Failed to delete event");
     } finally {
+      setIsLoading(false);
       setDeleteId(null);
     }
-  };
-
-  const handleExportCSV = () => {
-    const csv = eventService.exportToCSV(events);
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "events_attendees.csv");
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast.success("CSV exported successfully");
   };
 
   const filteredEvents = events.filter((event) => {
@@ -190,12 +228,7 @@ export default function EventsManagement() {
               className="w-full"
             />
           </div>
-          <Select
-            value={categoryFilter}
-            onValueChange={(value) =>
-              setCategoryFilter(value as EventCategory | "all")
-            }
-          >
+          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
             <SelectTrigger className="w-full sm:w-[200px]">
               <SelectValue />
             </SelectTrigger>
@@ -226,34 +259,64 @@ export default function EventsManagement() {
               </DialogHeader>
               <div className="space-y-4">
                 <div>
+                  <Label>Event Poster</Label>
+                  {posterUrl && (
+                    <div className="mt-2 mb-4 relative inline-block">
+                      <img
+                        src={posterUrl}
+                        alt="Poster preview"
+                        className="max-h-40 rounded-lg"
+                      />
+                      <button
+                        onClick={() => setPosterUrl("")}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                  {!posterUrl && (
+                    <ImageUploader
+                      onUploadSuccess={(url) => {
+                        setPosterUrl(url);
+                        toast.success("Poster uploaded");
+                      }}
+                      folder="jengacode/events/posters"
+                    />
+                  )}
+                </div>
+
+                <div>
                   <Label htmlFor="title">Event Title *</Label>
                   <Input
                     id="title"
-                    value={formData.title || ""}
+                    value={formData.title}
                     onChange={(e) =>
                       setFormData({ ...formData, title: e.target.value })
                     }
                     placeholder="e.g., Summer Coding Camp"
                   />
                 </div>
+
                 <div>
                   <Label htmlFor="slug">URL Slug *</Label>
                   <Input
                     id="slug"
-                    value={formData.slug || ""}
+                    value={formData.slug}
                     onChange={(e) =>
                       setFormData({ ...formData, slug: e.target.value })
                     }
                     placeholder="e.g., summer-coding-camp"
                   />
                 </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="date">Date *</Label>
                     <Input
                       id="date"
                       type="date"
-                      value={formData.date || ""}
+                      value={formData.date}
                       onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                       }
@@ -262,12 +325,9 @@ export default function EventsManagement() {
                   <div>
                     <Label htmlFor="category">Category</Label>
                     <Select
-                      value={formData.category || "workshop"}
+                      value={formData.category}
                       onValueChange={(value) =>
-                        setFormData({
-                          ...formData,
-                          category: value as EventCategory,
-                        })
+                        setFormData({ ...formData, category: value })
                       }
                     >
                       <SelectTrigger>
@@ -283,22 +343,37 @@ export default function EventsManagement() {
                     </Select>
                   </div>
                 </div>
+
                 <div>
-                  <Label htmlFor="location">Location</Label>
+                  <Label htmlFor="location">Venue/Location</Label>
                   <Input
                     id="location"
-                    value={formData.location || ""}
+                    value={formData.location}
                     onChange={(e) =>
                       setFormData({ ...formData, location: e.target.value })
                     }
                     placeholder="e.g., JengaCode Innovation Hub"
                   />
                 </div>
+
+                <div>
+                  <Label htmlFor="price">Charges/Price</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
+                    placeholder="e.g., 5000"
+                  />
+                </div>
+
                 <div>
                   <Label htmlFor="short-desc">Short Description</Label>
                   <Input
                     id="short-desc"
-                    value={formData.shortDescription || ""}
+                    value={formData.shortDescription}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -308,28 +383,30 @@ export default function EventsManagement() {
                     placeholder="Brief description for listings"
                   />
                 </div>
+
                 <div>
-                  <Label htmlFor="full-desc">Full Description</Label>
+                  <Label htmlFor="full-desc">Event Details/Description</Label>
                   <Textarea
                     id="full-desc"
-                    value={formData.fullDescription || ""}
+                    value={formData.fullDescription}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
                         fullDescription: e.target.value,
                       })
                     }
-                    placeholder="Detailed description"
+                    placeholder="Detailed event information"
                     rows={4}
                   />
                 </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="capacity">Capacity</Label>
                     <Input
                       id="capacity"
                       type="number"
-                      value={formData.capacity || 0}
+                      value={formData.capacity}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
@@ -343,7 +420,7 @@ export default function EventsManagement() {
                     <Input
                       id="registered"
                       type="number"
-                      value={formData.registered || 0}
+                      value={formData.registered}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
@@ -353,9 +430,10 @@ export default function EventsManagement() {
                     />
                   </div>
                 </div>
+
                 <div className="flex items-center gap-3">
                   <Switch
-                    checked={formData.featured || false}
+                    checked={formData.featured}
                     onCheckedChange={(checked) =>
                       setFormData({ ...formData, featured: checked })
                     }
@@ -363,27 +441,25 @@ export default function EventsManagement() {
                   <Label>Featured Event</Label>
                 </div>
               </div>
+
               <DialogFooter>
                 <Button variant="outline" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
                 <Button
                   onClick={handleSaveEvent}
+                  disabled={isLoading}
                   className="bg-gradient-to-r from-jengacode-purple to-jengacode-cyan"
                 >
-                  {editingId ? "Update Event" : "Create Event"}
+                  {isLoading
+                    ? "Saving..."
+                    : editingId
+                    ? "Update Event"
+                    : "Create Event"}
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <Button
-            variant="outline"
-            onClick={handleExportCSV}
-            className="w-full sm:w-auto"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Export CSV
-          </Button>
         </div>
 
         <Card>
@@ -391,71 +467,92 @@ export default function EventsManagement() {
             <CardTitle>Events List ({filteredEvents.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Capacity</TableHead>
-                    <TableHead>Featured</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredEvents.length === 0 ? (
+            {isLoading && filteredEvents.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-600 dark:text-gray-400">Loading...</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center py-8">
-                        No events found
-                      </TableCell>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Venue</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Capacity</TableHead>
+                      <TableHead>Featured</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ) : (
-                    filteredEvents.map((event) => (
-                      <TableRow key={event.id}>
-                        <TableCell className="font-medium">{event.title}</TableCell>
-                        <TableCell>{event.date}</TableCell>
-                        <TableCell>{event.location}</TableCell>
-                        <TableCell>
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                            {event.category}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          {event.registered}/{event.capacity}
-                        </TableCell>
-                        <TableCell>
-                          {event.featured ? (
-                            <span className="text-jengacode-cyan font-semibold">★</span>
-                          ) : (
-                            <span className="text-gray-400">☆</span>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex gap-2 justify-end">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleOpenDialog(event)}
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setDeleteId(event.id)}
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
-                          </div>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredEvents.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center py-8">
+                          No events found
                         </TableCell>
                       </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </div>
+                    ) : (
+                      filteredEvents.map((event) => (
+                        <TableRow key={event.id}>
+                          <TableCell className="font-medium">
+                            {event.title}
+                          </TableCell>
+                          <TableCell>
+                            {format(new Date(event.date), "MMM dd, yyyy")}
+                          </TableCell>
+                          <TableCell>{event.location}</TableCell>
+                          <TableCell>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                              {event.category}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            {event.registered}/{event.capacity}
+                          </TableCell>
+                          <TableCell>
+                            {event.featured ? (
+                              <span className="text-jengacode-cyan font-semibold">
+                                ★
+                              </span>
+                            ) : (
+                              <span className="text-gray-400">☆</span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex gap-2 justify-end">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleOpenDialog(event)}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                asChild
+                              >
+                                <a href={`/admin/events/${event.id}/gallery`}>
+                                  <ImageIcon className="w-4 h-4" />
+                                </a>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setDeleteId(event.id)}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -469,7 +566,7 @@ export default function EventsManagement() {
               undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogContent>
+          <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deleteId && handleDeleteEvent(deleteId)}
@@ -477,7 +574,7 @@ export default function EventsManagement() {
             >
               Delete
             </AlertDialogAction>
-          </AlertDialogContent>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </KindeAdminLayout>
