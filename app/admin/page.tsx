@@ -27,6 +27,7 @@ import {
   TrendingUp,
   Activity,
 } from "lucide-react";
+import Link from "next/link";
 
 const COLORS = ["#8B5A96", "#40E0D0", "#FFD700", "#A569BD"];
 
@@ -94,6 +95,9 @@ export default function AdminDashboard() {
   return (
     <KindeAdminLayout title="Dashboard">
       <div className="space-y-8">
+        {/* <Link href="/admin/events" className="text-2xl font-bold">
+          Admin Dashboard
+        </Link> */}
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {STATS.map((stat) => (
