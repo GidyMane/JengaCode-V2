@@ -15,7 +15,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeAuth, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { cn } from "@/lib/utils";
 
@@ -72,7 +72,8 @@ const NAV_ITEMS: NavItem[] = [
 
 export function AdminSidebarNav() {
   const pathname = usePathname();
-  const { user } = useKindeAuth();
+  const { user, getAccessToken } = useKindeBrowserClient();
+  const atok = getAccessToken();
 
   return (
     <div className="h-screen w-64 bg-gradient-to-b from-jengacode-purple to-purple-900 text-white flex flex-col shadow-lg">
@@ -89,14 +90,15 @@ export function AdminSidebarNav() {
       </div>
 
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.map((item, idx) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
-          const shouldShow = !item.requiredRole || item.requiredRole.includes(user?.role || "");
+          const shouldShow = !item.requiredRole || item.requiredRole.includes(atok?.roles?.[0].name || "");
 
-          if (!shouldShow) return null;
+          // if (!shouldShow) return null;
 
           return (
-            <Link key={item.href} href={item.href}>
+            <React.Fragment key={idx}>
+            <Link  href={item.href}>
               <Button
                 variant="ghost"
                 className={cn(
@@ -108,6 +110,7 @@ export function AdminSidebarNav() {
                 {item.title}
               </Button>
             </Link>
+            </React.Fragment>
           );
         })}
       </nav>
