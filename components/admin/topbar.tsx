@@ -29,20 +29,20 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 h-16 flex items-center justify-between px-6 shadow-sm">
+    <div className="bg-gradient-to-r from-jengacode-purple to-purple-700 border-b border-purple-800 h-16 flex items-center justify-between px-6 shadow-md">
       <div className="flex items-center gap-4">
         {onMenuToggle && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onMenuToggle}
-            className="lg:hidden"
+            className="lg:hidden hover:bg-purple-600 text-white"
           >
             <Menu className="w-5 h-5" />
           </Button>
         )}
         {title && (
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h1 className="text-xl font-semibold text-white">
             {title}
           </h1>
         )}
@@ -52,9 +52,9 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="relative"
+          className="relative hover:bg-purple-600 text-white"
         >
-          <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+          <Bell className="w-5 h-5" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
         </Button>
 
@@ -63,28 +63,29 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="hover:bg-purple-600 text-white"
           >
             {theme === "dark" ? (
-              <Sun className="w-5 h-5 text-gray-600" />
+              <Sun className="w-5 h-5" />
             ) : (
-              <Moon className="w-5 h-5 text-gray-600" />
+              <Moon className="w-5 h-5" />
             )}
           </Button>
         )}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="gap-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-jengacode-purple to-jengacode-cyan flex items-center justify-center text-white font-semibold text-sm">
+            <Button variant="ghost" className="gap-2 hover:bg-purple-600 text-white">
+              <div className="w-8 h-8 rounded-full bg-jengacode-cyan flex items-center justify-center text-purple-900 font-semibold text-sm">
                 {(user?.given_name || user?.email)?.charAt(0).toUpperCase() || "A"}
               </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              <div className="hidden sm:block text-left">
+                <p className="text-sm font-semibold text-white">
                   {user?.given_name && user?.family_name
                     ? `${user.given_name} ${user.family_name}`
                     : user?.email || "Admin"}
                 </p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
+                <p className="text-xs text-purple-200">
                   {user?.email || "admin"}
                 </p>
               </div>
