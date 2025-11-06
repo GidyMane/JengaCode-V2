@@ -2,9 +2,9 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navigation } from "@/components/ui/navigation";
-import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
 import { Toaster } from "sonner";
 import "./globals.css";
+import KindeAuthProvider from "./KindeAuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <KindeProvider>
+        <KindeAuthProvider>
           <Navigation />
           {children}
           <Toaster position="top-right" />
-        </KindeProvider>
+        </KindeAuthProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+import {  useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useRouter } from "next/navigation";
 import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { AdminSidebarNav } from "./sidebar-nav";
@@ -20,7 +20,10 @@ export function KindeAdminLayout({
   title,
   requiredRoles = ["admin"],
 }: KindeAdminLayoutProps) {
-  const { user, isLoading, isAuthenticated } = useKindeAuth();
+  const { user, isLoading, isAuthenticated, accessToken, getAccessToken} = useKindeBrowserClient();
+  const atok= getAccessToken();
+
+  console.log( accessToken,"access" ,atok);
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -32,8 +35,11 @@ export function KindeAdminLayout({
     setMounted(true);
   }, []);
 
+
+
   // Fetch user from database to check role
   useEffect(() => {
+    console.log("Fetching DB user...");
     const fetchDbUser = async () => {
       if (!isAuthenticated || !user) {
         setDbLoading(false);
@@ -41,23 +47,19 @@ export function KindeAdminLayout({
       }
 
       try {
-        const response = await fetch("/api/auth/user");
-        if (response.ok) {
-          const userData = await response.json();
-          setDbUser(userData);
+       
+        setDbUser({...user, role: accessToken?.roles ? accessToken?.roles[0].name:"" });
+
+        console.log("Fetched user data:", requiredRoles.includes(accessToken?.roles ? accessToken?.roles[0].name:"" ));
           // Check if user has required role
-          if (!requiredRoles.includes(userData.role)) {
-            setAccessDenied(true);
-          }
-        } else {
+        if (!requiredRoles.includes(accessToken?.roles ? accessToken?.roles[0].name:"" )) {
           setAccessDenied(true);
         }
       } catch (error) {
-        console.error("Failed to fetch user:", error);
+        console.error("Error fetching user from DB:", error);
         setAccessDenied(true);
-      } finally {
-        setDbLoading(false);
       }
+      
     };
 
     fetchDbUser();
