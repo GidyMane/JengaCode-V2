@@ -36,6 +36,7 @@ const NAV_ITEMS: NavItem[] = [
     title: "Events",
     icon: <Calendar className="w-5 h-5" />,
     href: "/admin/events",
+    //  requiredRole: ["Admin"],
   },
   {
     title: "Blog",
@@ -76,7 +77,7 @@ export function AdminSidebarNav() {
   const atok = getAccessToken();
 
   return (
-    <div className="h-screen w-64 bg-gradient-to-b from-jengacode-purple to-purple-900 text-white flex flex-col shadow-lg">
+    <div className="h-screen w-64 bg-gradient-to-b from-jengacode-purple to-purple-900 text-white flex z-50 flex-col shadow-lg">
       <div className="p-6 border-b border-purple-800">
         <Link href="/admin" className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-lg bg-jengacode-cyan flex items-center justify-center font-bold text-purple-900">
@@ -89,28 +90,28 @@ export function AdminSidebarNav() {
         </Link>
       </div>
 
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+      <nav className="flex-1 p-4 space-y-2 overflow-y-auto z-50">
         {NAV_ITEMS.map((item, idx) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           const shouldShow = !item.requiredRole || item.requiredRole.includes(atok?.roles?.[0].name || "");
 
-          // if (!shouldShow) return null;
+          if (!shouldShow) return null;
 
           return (
-            <React.Fragment key={idx}>
-            <Link  href={item.href}>
-              <Button
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start gap-3 text-white hover:bg-purple-700",
-                  isActive && "bg-jengacode-cyan text-purple-900 hover:bg-jengacode-cyan"
-                )}
-              >
+            <Button
+              key={idx}
+              variant="ghost"
+              className={cn(
+                "w-full justify-start gap-3 text-white hover:bg-purple-700",
+                isActive && "bg-jengacode-cyan text-purple-900 hover:bg-jengacode-cyan"
+              )}
+              asChild
+            >
+              <Link href={item.href}>
                 {item.icon}
                 {item.title}
-              </Button>
-            </Link>
-            </React.Fragment>
+              </Link>
+            </Button>
           );
         })}
       </nav>

@@ -25,7 +25,7 @@ export function KindeAdminLayout({
 
   console.log(accessToken, "access", atok);
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [dbUser, setDbUser] = useState<any>(null);
   const [dbLoading, setDbLoading] = useState(true);
@@ -45,14 +45,15 @@ export function KindeAdminLayout({
       }
 
       try {
-        setDbUser({ ...user, role: accessToken?.roles ? accessToken?.roles[0].name : "" });
+        const userRole = accessToken?.roles?.[0]?.name || "";
+        setDbUser({ ...user, role: userRole });
 
         console.log(
           "Fetched user data:",
-          requiredRoles.includes(accessToken?.roles ? accessToken?.roles[0].name : "")
+          requiredRoles.includes(userRole)
         );
         // Check if user has required role
-        if (!requiredRoles.includes(accessToken?.roles ? accessToken?.roles[0].name : "")) {
+        if (!requiredRoles.includes(userRole)) {
           setAccessDenied(true);
         }
       } catch (error) {
@@ -64,7 +65,8 @@ export function KindeAdminLayout({
     };
 
     fetchDbUser();
-  }, [isAuthenticated, user, requiredRoles, accessToken]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, user?.id]);
 
   if (!mounted || isLoading || dbLoading) {
     return (
@@ -116,8 +118,14 @@ export function KindeAdminLayout({
       </div>
 
       {sidebarOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-black/50">
-          <div className="bg-white dark:bg-slate-950 w-64 h-screen overflow-y-auto">
+        <div
+          className="lg:hidden fixed inset-0 z-40 bg-black/50"
+          onClick={() => setSidebarOpen(false)}
+        >
+          <div
+            className="bg-white dark:bg-slate-950 w-64 h-screen overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <AdminSidebarNav />
           </div>
         </div>

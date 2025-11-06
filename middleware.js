@@ -53,5 +53,5 @@ export default function middleware(req) {
 
 
 export const config = {
-  matcher: ["/(api|trpc)(.)", "/", "/admin/events", "/:path*"],
+  matcher: ["/(api|trpc)(.)", "/", "/admin/:path*"],
 };
