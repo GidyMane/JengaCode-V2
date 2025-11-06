@@ -29,20 +29,20 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 h-16 flex items-center justify-between px-6 shadow-sm">
+    <div className="bg-gradient-to-r from-jengacode-purple to-purple-700 border-b border-purple-800 h-16 flex items-center justify-between px-6 shadow-md">
       <div className="flex items-center gap-4">
         {onMenuToggle && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onMenuToggle}
-            className="lg:hidden"
+            className="lg:hidden hover:bg-purple-600 text-white"
           >
             <Menu className="w-5 h-5" />
           </Button>
         )}
         {title && (
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h1 className="text-xl font-semibold text-white">
             {title}
           </h1>
         )}
