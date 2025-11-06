@@ -52,9 +52,9 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="relative"
+          className="relative hover:bg-purple-600 text-white"
         >
-          <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+          <Bell className="w-5 h-5" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
         </Button>
 
@@ -63,28 +63,29 @@ export function AdminTopbar({ onMenuToggle, title }: TopbarProps) {
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="hover:bg-purple-600 text-white"
           >
             {theme === "dark" ? (
-              <Sun className="w-5 h-5 text-gray-600" />
+              <Sun className="w-5 h-5" />
             ) : (
-              <Moon className="w-5 h-5 text-gray-600" />
+              <Moon className="w-5 h-5" />
             )}
           </Button>
         )}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="gap-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-jengacode-purple to-jengacode-cyan flex items-center justify-center text-white font-semibold text-sm">
+            <Button variant="ghost" className="gap-2 hover:bg-purple-600 text-white">
+              <div className="w-8 h-8 rounded-full bg-jengacode-cyan flex items-center justify-center text-purple-900 font-semibold text-sm">
                 {(user?.given_name || user?.email)?.charAt(0).toUpperCase() || "A"}
               </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              <div className="hidden sm:block text-left">
+                <p className="text-sm font-semibold text-white">
                   {user?.given_name && user?.family_name
                     ? `${user.given_name} ${user.family_name}`
                     : user?.email || "Admin"}
                 </p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
+                <p className="text-xs text-purple-200">
                   {user?.email || "admin"}
                 </p>
               </div>
