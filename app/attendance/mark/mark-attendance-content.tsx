@@ -2,14 +2,14 @@
 
 import { useSearchParams } from "next/navigation";
 import { AttendanceMarker } from "@/components/attendance/attendance-marker";
-import { mockEvents } from "@/lib/events";
+import { events } from "@/lib/events";
 
 export function MarkAttendanceContent() {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
 
   // Find the event
-  const event = mockEvents.find(e => e.id === eventId);
+  const event = events.find(e => e.id === eventId);
 
   if (!eventId || !event) {
     return (
