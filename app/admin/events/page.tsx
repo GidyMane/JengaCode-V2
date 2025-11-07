@@ -159,6 +159,7 @@ export default function EventsManagement() {
       setIsLoading(true);
       const payload = {
         ...formData,
+        date: new Date(formData.date).toISOString(),
         posterUrl: posterUrl,
       };
 
