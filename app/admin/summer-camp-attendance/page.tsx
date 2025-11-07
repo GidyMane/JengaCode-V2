@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { QRCodeGenerator } from "@/components/attendance/qr-code-generator";
 import { useAuth } from "@/lib/auth";
 import { attendanceService, EventAttendance } from "@/lib/attendance";
-import { mockEvents } from "@/lib/events";
+import { events as mockEvents } from "@/lib/events";
 import { 
   Calendar, 
   Users, 
