@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JengaCode | Coding &amp; Robotics Academy for Children in Nairobi</title>
+<meta name="description" content="JengaCode teaches coding, robotics, AI and digital skills to children aged 8 to 17 in Nairobi. Hands-on classes, small groups, certificates. Register for the August Holiday Coding Camp at Maktaba Kuu.">
+<link rel="canonical" href="https://www.jengacode.co.ke/">
+<meta name="theme-color" content="#2E0F52">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JengaCode | Coding &amp; Robotics Academy for Children">
+<meta property="og:description" content="Hands-on coding and robotics for children aged 8 to 17 in Nairobi. Register for the August Holiday Coding Camp at Maktaba Kuu.">
+<meta property="og:url" content="https://www.jengacode.co.ke/">
+<meta property="og:image" content="https://www.jengacode.co.ke/events/poster-bootcamp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="public/brand/icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   JengaCode design tokens
+   Palette pulled from the official logo, brochure and posters.
+   ============================================================ */
+:root{
+  --violet-900:#2E0F52;
+  --violet-700:#4A1C82;
+  --violet-500:#7A2BBF;
+  --magenta:#E62E8B;
+  --orange:#F5821F;
+  --gold:#F5A524;
+
+  --paper:#FBF8FD;
+  --paper-2:#F2EAFA;
+  --white:#FFFFFF;
+
+  --ink:#1B1030;
+  --ink-soft:#5B4C74;
+  --line:rgba(46,15,82,.12);
+
+  --display:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+
+  --r-sm:10px;
+  --r-md:18px;
+  --r-lg:28px;
+
+  --shadow-sm:0 2px 8px rgba(46,15,82,.06);
+  --shadow-md:0 14px 40px -18px rgba(46,15,82,.32);
+  --shadow-lg:0 34px 80px -34px rgba(46,15,82,.45);
+
+  --gutter:clamp(20px,5vw,64px);
+  --maxw:1200px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1.04;letter-spacing:-.024em;margin:0}
+p{margin:0}
+button{font:inherit;cursor:pointer}
+
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:clamp(64px,9vw,124px)}
+.skip{position:absolute;left:-9999px;top:0;background:var(--violet-900);color:#fff;padding:12px 18px;z-index:200;border-radius:0 0 10px 0}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
+
+/* ---------- signature: the build stack ---------- */
+/* Jenga means build. Three offset planks mark every section. */
+.stack{display:inline-flex;flex-direction:column;gap:3px;width:34px;flex:none}
+.stack i{height:5px;border-radius:3px;display:block}
+.stack i:nth-child(1){width:100%;background:var(--violet-500)}
+.stack i:nth-child(2){width:72%;background:var(--magenta)}
+.stack i:nth-child(3){width:44%;background:var(--orange)}
+.stack--light i:nth-child(1){background:#fff}
+.stack--light i:nth-child(2){background:var(--gold)}
+.stack--light i:nth-child(3){background:var(--magenta)}
+
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:.78rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--violet-500);margin-bottom:18px}
+.eyebrow--light{color:var(--gold)}
+
+.h-sec{font-size:clamp(2rem,4.4vw,3.3rem)}
+.lede{font-size:clamp(1.02rem,1.5vw,1.18rem);color:var(--ink-soft);max-width:60ch;margin-top:18px}
+.lede--light{color:rgba(255,255,255,.82)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 26px;border-radius:100px;font-weight:700;font-size:1rem;
+  text-decoration:none;border:2px solid transparent;transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn--primary{background:var(--orange);color:#fff;box-shadow:0 10px 26px -10px rgba(245,130,31,.85)}
+.btn--primary:hover{background:#E4700C;box-shadow:0 16px 32px -12px rgba(245,130,31,.95)}
+.btn--ghost{border-color:var(--violet-500);color:var(--violet-700);background:transparent}
+.btn--ghost:hover{background:var(--violet-700);color:#fff;border-color:var(--violet-700)}
+.btn--light{background:#fff;color:var(--violet-900)}
+.btn--outline-light{border-color:rgba(255,255,255,.5);color:#fff}
+.btn--outline-light:hover{background:#fff;color:var(--violet-900)}
+.btn--sm{padding:11px 20px;font-size:.92rem}
+
+/* ---------- header ---------- */
+.hdr{position:sticky;top:0;z-index:100;background:rgba(251,248,253,.86);
+  backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .2s,box-shadow .2s}
+.hdr.is-stuck{border-color:var(--line);box-shadow:0 6px 24px -20px rgba(46,15,82,.6)}
+.hdr__in{display:flex;align-items:center;gap:20px;height:78px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:none}
+.brand__img{height:46px;width:auto}
+.brand__mark{width:52px;flex:none;display:block}
+.brand__word{font-family:var(--display);font-weight:800;font-size:1.32rem;letter-spacing:-.03em;line-height:1}
+.brand__word em{font-style:normal;color:var(--orange)}
+.nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+.nav a{text-decoration:none;font-weight:600;font-size:.95rem;padding:9px 13px;border-radius:9px;color:var(--ink);opacity:.85}
+.nav a:hover{opacity:1;background:var(--paper-2);color:var(--violet-700)}
+.hdr .btn{margin-left:10px}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:10px;border-radius:10px}
+.burger span{display:block;width:24px;height:2.5px;background:var(--ink);border-radius:2px}
+.burger span+span{margin-top:5px}
+
+@media(max-width:1040px){
+  .nav{position:fixed;inset:78px 0 auto;background:var(--paper);flex-direction:column;
+    align-items:stretch;gap:0;padding:14px var(--gutter) 28px;border-bottom:1px solid var(--line);
+    box-shadow:var(--shadow-md);display:none}
+  .nav.is-open{display:flex}
+  .nav a{padding:14px 4px;border-bottom:1px solid var(--line);border-radius:0;font-size:1.05rem}
+  .burger{display:block}
+  .hdr__cta{display:none}
+  .nav .btn{margin:16px 0 0}
+}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(60px,7vw,96px);position:relative}
+.hero::before{content:"";position:absolute;top:-160px;right:-180px;width:520px;height:520px;
+  background:radial-gradient(circle,rgba(230,46,139,.13),transparent 66%);pointer-events:none}
+.hero__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,68px);align-items:center}
+.hero h1{font-size:clamp(2.5rem,5.6vw,4.15rem)}
+.hero h1 em{font-style:normal;color:var(--violet-500)}
+.hero .lede{margin-top:22px}
+.hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+.hero__facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+.hero__facts li{list-style:none;font-size:.9rem;font-weight:600;color:var(--ink-soft);display:flex;align-items:center;gap:8px}
+.hero__facts li::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--gold);flex:none}
+.hero__facts{margin-block-end:0;padding-inline-start:0}
+
+.hero__media{position:relative}
+.hero__photo{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg);
+  aspect-ratio:4/3.4;background:var(--paper-2)}
+.hero__photo img{width:100%;height:100%;object-fit:cover}
+.hero__badge{position:absolute;left:-16px;bottom:-22px;background:var(--violet-900);color:#fff;
+  border-radius:var(--r-md);padding:18px 22px;box-shadow:var(--shadow-lg);max-width:250px}
+.hero__badge b{display:block;font-family:var(--display);font-size:1.06rem;line-height:1.15;margin-bottom:5px}
+.hero__badge span{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.45;display:block}
+
+@media(max-width:900px){
+  .hero__grid{grid-template-columns:1fr}
+  .hero__media{order:-1}
+  .hero__badge{left:auto;right:12px;bottom:-18px;max-width:220px}
+}
+
+/* ---------- event band ---------- */
+.event{position:relative;background:var(--violet-900);color:#fff;
+  clip-path:polygon(0 0,100% 46px,100% 100%,0 calc(100% - 46px));
+  margin-top:-20px;padding-block:clamp(96px,11vw,152px)}
+.event::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(760px 380px at 85% 8%,rgba(230,46,139,.24),transparent 62%)}
+.event > *{position:relative;z-index:1}
+.event__grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(32px,5vw,64px);align-items:center}
+.posters{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.poster{border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-lg);background:rgba(255,255,255,.08);
+  transition:transform .3s ease}
+.poster:first-child{transform:rotate(-2.2deg)}
+.poster:last-child{transform:rotate(1.8deg) translateY(18px)}
+.poster:hover{transform:rotate(0) scale(1.03)}
+.poster img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.event h2{font-size:clamp(2.1rem,4.6vw,3.4rem)}
+.event h2 em{font-style:normal;color:var(--gold)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:30px}
+.meta div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--r-sm);padding:14px 16px}
+.meta dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px}
+.meta dd{margin:0;font-weight:600;font-size:1rem}
+.tracks{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.tracks li{border-left:3px solid var(--orange);padding-left:14px}
+.tracks b{display:block;font-family:var(--display);font-size:1rem;margin-bottom:2px}
+.tracks span{font-size:.87rem;color:rgba(255,255,255,.72);line-height:1.5}
+.tracks li:nth-child(2){border-color:var(--magenta)}
+.tracks li:nth-child(3){border-color:var(--gold)}
+.tracks li:nth-child(4){border-color:#4ECB71}
+.event__cta{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:34px}
+.countdown{display:flex;gap:10px}
+.countdown div{background:rgba(255,255,255,.1);border-radius:10px;padding:8px 12px;text-align:center;min-width:60px}
+.countdown b{display:block;font-family:var(--display);font-size:1.35rem;line-height:1}
+.countdown span{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+@media(max-width:900px){
+  .event{clip-path:polygon(0 0,100% 24px,100% 100%,0 calc(100% - 24px))}
+  .event__grid{grid-template-columns:1fr}
+}
+
+/* ---------- about ---------- */
+.about__grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,5vw,72px);align-items:center}
+.collage{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:14px}
+.collage figure{margin:0;border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-md);background:var(--paper-2)}
+.collage figure:first-child{grid-row:span 2}
+.collage img{width:100%;height:100%;object-fit:cover;aspect-ratio:1/1}
+.collage figure:first-child img{aspect-ratio:3/4.3}
+.pullquote{font-family:var(--display);font-weight:700;font-size:clamp(1.35rem,2.4vw,1.9rem);
+  line-height:1.2;letter-spacing:-.02em;margin:30px 0 0;padding-left:22px;border-left:5px solid var(--gold)}
+.pullquote em{font-style:normal;color:var(--violet-500)}
+.about__points{list-style:none;padding:0;margin:30px 0 0;display:grid;gap:14px}
+.about__points li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;color:var(--ink-soft)}
+.about__points b{color:var(--ink)}
+.about__points li::before{content:"";flex:none;width:9px;height:9px;border-radius:3px;background:var(--magenta);margin-top:9px}
+@media(max-width:900px){.about__grid{grid-template-columns:1fr}}
+
+/* ---------- programs ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-top:46px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:28px 26px 26px;
+  position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,border-color .22s}
+.card::before{content:"";position:absolute;left:0;top:0;height:4px;width:56px;background:var(--c,var(--violet-500));
+  transition:width .3s ease}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:transparent}
+.card:hover::before{width:100%}
+.card h3{font-size:1.24rem;margin-bottom:10px}
+.card p{font-size:.96rem;color:var(--ink-soft)}
+.card .age{display:inline-block;margin-top:16px;font-size:.76rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--violet-700);background:var(--paper-2);padding:5px 11px;border-radius:100px}
+.card__icon{width:40px;height:40px;margin-bottom:16px;color:var(--c,var(--violet-500))}
+.card__icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- why parents ---------- */
+.why{background:var(--paper-2)}
+.why__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:16px;margin-top:46px}
+.why__item{background:#fff;border-radius:var(--r-md);padding:26px 24px;box-shadow:var(--shadow-sm)}
+.why__item h3{font-size:1.08rem;margin-bottom:8px;display:flex;align-items:center;gap:11px}
+.why__item p{font-size:.94rem;color:var(--ink-soft)}
+.tick{width:26px;height:26px;border-radius:8px;background:var(--violet-700);flex:none;
+  display:grid;place-items:center;color:#fff}
+.tick svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.why__item:nth-child(2n) .tick{background:var(--magenta)}
+.why__item:nth-child(3n) .tick{background:var(--orange)}
+
+/* ---------- gallery ---------- */
+.masonry{columns:3;column-gap:16px;margin-top:46px}
+@media(max-width:900px){.masonry{columns:2}}
+@media(max-width:520px){.masonry{columns:1}}
+.masonry button{display:block;width:100%;padding:0;border:0;background:none;margin:0 0 16px;
+  border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-sm);break-inside:avoid;
+  position:relative;transition:transform .25s ease,box-shadow .25s ease}
+.masonry button:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.masonry img{width:100%;height:auto}
+.masonry button::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(46,15,82,.5),transparent 45%);
+  opacity:0;transition:opacity .25s ease}
+.masonry button:hover::after{opacity:1}
+
+.lightbox{position:fixed;inset:0;z-index:300;background:rgba(20,6,38,.94);display:none;
+  align-items:center;justify-content:center;padding:24px}
+.lightbox[open],.lightbox.is-open{display:flex}
+.lightbox img{max-width:min(1100px,92vw);max-height:86vh;width:auto;border-radius:var(--r-md);box-shadow:var(--shadow-lg)}
+.lightbox__close,.lightbox__nav{position:absolute;background:rgba(255,255,255,.12);border:0;color:#fff;
+  width:52px;height:52px;border-radius:50%;font-size:1.4rem;display:grid;place-items:center;transition:background .2s}
+.lightbox__close:hover,.lightbox__nav:hover{background:rgba(255,255,255,.26)}
+.lightbox__close{top:22px;right:22px}
+.lightbox__nav.prev{left:22px;top:50%;transform:translateY(-50%)}
+.lightbox__nav.next{right:22px;top:50%;transform:translateY(-50%)}
+
+/* ---------- testimonials ---------- */
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:46px}
+.quote{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:30px 28px;position:relative}
+.quote__mark{font-family:var(--display);font-size:3.4rem;line-height:.6;color:var(--gold);display:block;margin-bottom:12px}
+.quote p{font-size:1.02rem;color:var(--ink);line-height:1.6}
+.quote footer{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:.9rem}
+.quote footer b{display:block;font-family:var(--display);font-size:1rem}
+.quote footer span{color:var(--ink-soft)}
+.draft{position:absolute;top:14px;right:14px;background:#FFF3D6;color:#8A5B00;border:1px solid #F0C86B;
+  font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:100px}
+
+/* ---------- brochure ---------- */
+.brochure{background:var(--violet-700);color:#fff}
+.brochure__grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(32px,5vw,60px);align-items:center}
+.brochure__frame{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--r-md);padding:10px;box-shadow:var(--shadow-lg);display:grid;gap:10px}
+.brochure__frame img{width:100%;border-radius:10px;background:#fff;display:block;transition:transform .25s ease}
+.brochure__frame a:hover img{transform:scale(1.015)}
+.brochure .btn+.btn{margin-left:12px}
+@media(max-width:900px){
+  .brochure__grid{grid-template-columns:1fr}
+  .brochure .btn+.btn{margin:12px 0 0}
+}
+
+/* ---------- faq ---------- */
+.faq__list{margin-top:40px;max-width:860px}
+.faq__item{border-bottom:1px solid var(--line)}
+.faq__q{width:100%;text-align:left;background:none;border:0;padding:24px 44px 24px 0;position:relative;
+  font-family:var(--display);font-weight:700;font-size:clamp(1.05rem,1.8vw,1.22rem);letter-spacing:-.015em;color:var(--ink)}
+.faq__q::after{content:"";position:absolute;right:8px;top:50%;width:12px;height:12px;
+  border-right:2.5px solid var(--violet-500);border-bottom:2.5px solid var(--violet-500);
+  transform:translateY(-70%) rotate(45deg);transition:transform .25s ease}
+.faq__q[aria-expanded="true"]::after{transform:translateY(-25%) rotate(-135deg)}
+.faq__q:hover{color:var(--violet-700)}
+.faq__a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.faq__a > div{overflow:hidden}
+.faq__item.is-open .faq__a{grid-template-rows:1fr}
+.faq__a p{padding:0 0 26px;color:var(--ink-soft);max-width:70ch}
+
+/* ---------- contact ---------- */
+.contact{background:var(--violet-900);color:#fff}
+.contact__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,60px)}
+.contact__rows{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:14px}
+.contact__rows a{display:flex;align-items:center;gap:16px;text-decoration:none;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-sm);
+  padding:16px 18px;transition:background .2s ease,transform .2s ease}
+.contact__rows a:hover{background:rgba(255,255,255,.14);transform:translateX(4px)}
+.contact__rows small{display:block;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.contact__rows b{font-family:var(--display);font-size:1.14rem;font-weight:700}
+.ico{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.12);display:grid;place-items:center;flex:none}
+.ico svg{width:21px;height:21px;fill:currentColor}
+.ico--wa{background:#25D366;color:#0B3D22}
+.contact__cta{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--r-md);padding:34px 30px;align-self:start}
+.contact__cta h3{font-size:1.5rem;margin-bottom:12px}
+.contact__cta p{color:rgba(255,255,255,.78);font-size:.98rem;margin-bottom:24px}
+@media(max-width:900px){.contact__grid{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+.ftr{background:#170727;color:rgba(255,255,255,.62);padding-block:44px;font-size:.9rem}
+.ftr__in{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.ftr a{color:rgba(255,255,255,.62);text-decoration:none}
+.ftr a:hover{color:#fff}
+.ftr nav{display:flex;flex-wrap:wrap;gap:6px 20px}
+
+/* ---------- sticky mobile register bar ---------- */
+.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;gap:10px;padding:10px 14px;
+  background:rgba(251,248,253,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.sticky-cta .btn{flex:1}
+@media(max-width:700px){.sticky-cta{display:flex}body{padding-bottom:76px}}
+
+/* ---------- asset placeholder (shown only if a photo file is missing) ---------- */
+.ph{width:100%;height:100%;min-height:150px;display:grid;place-content:center;gap:10px;justify-items:center;
+  background:linear-gradient(135deg,#F1E6FB,#FBE9F4 55%,#FDEEDF);color:var(--violet-700);padding:22px;text-align:center}
+.ph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.74rem;background:rgba(255,255,255,.72);
+  padding:4px 9px;border-radius:6px;word-break:break-all}
+.ph small{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.65}
+.masonry .ph{aspect-ratio:4/3}
+
+/* ---------- reveal on scroll ---------- */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ================= HEADER ================= -->
+<header class="hdr" id="home">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#home" aria-label="JengaCode home">
+      <img src="public/brand/logo-mark.png" alt="" class="brand__img" id="brandImg" data-ph="public/brand/logo-mark.png">
+      <span class="brand__mark" id="brandMark" aria-hidden="true" hidden>
+        <svg viewBox="0 0 300 160" role="img">
+          <defs>
+            <linearGradient id="gL" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7A2BBF"/><stop offset="1" stop-color="#B23BD6"/>
+            </linearGradient>
+            <linearGradient id="gR" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#F5A524"/><stop offset="1" stop-color="#E62E8B"/>
+            </linearGradient>
+          </defs>
+          <path d="M110 20 V92 a36 36 0 0 1-36 36 H44" stroke="url(#gL)" stroke-width="38" fill="none" stroke-linecap="round"/>
+          <path d="M190 20 V92 a36 36 0 0 0 36 36 H256" stroke="url(#gR)" stroke-width="38" fill="none" stroke-linecap="round"/>
+          <path d="M147 72 L131 96 L147 120" stroke="#F5821F" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M153 72 L169 96 L153 120" stroke="#F5821F" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand__word" id="brandWord">Jenga<em>Code</em></span>
+    </a>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#programs">Programs</a>
+      <a href="#event">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#brochure">Brochure</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn--primary btn--sm" href="https://forms.gle/gz8a9Ysnc6x3cbaB7" target="_blank" rel="noopener">Register now</a>
+    </nav>
+
+    <a class="btn btn--primary btn--sm hdr__cta" href="https://forms.gle/gz8a9Ysnc6x3cbaB7" target="_blank" rel="noopener">Register now</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero wrap">
+  <div class="hero__grid">
+    <div>
+      <p class="eyebrow"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> Coding &amp; robotics academy &middot; Nairobi</p>
+      <h1>Your child builds the robot. And the game. And the <em>website</em>.</h1>
+      <p class="lede">JengaCode teaches coding, robotics and AI to children aged 8 to 17. Every session is hands-on, so your child goes home with something they made themselves, not just notes.</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="https://forms.gle/gz8a9Ysnc6x3cbaB7" target="_blank" rel="noopener">Register now</a>
+        <a class="btn btn--ghost" href="#programs">Explore programs</a>
+      </div>
+      <ul class="hero__facts">
+        <li>Ages 8 to 17</li>
+        <li>Small class sizes</li>
+        <li>Certificate on completion</li>
+        <li>Maktaba Kuu, Upper Hill</li>
+      </ul>
+    </div>
+
+    <div class="hero__media">
+      <div class="hero__photo">
+        <img src="public/photos/student-lab.jpg" alt="A JengaCode student building an electronics project beside his laptop in the computer lab" fetchpriority="high" data-ph="public/photos/student-lab.jpg">
+      </div>
+      <div class="hero__badge">
+        <b>August Holiday Camp is open</b>
+        <span>10 to 14 August 2026 &middot; 9am to 4pm &middot; Maktaba Kuu Building, Upper Hill</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURED EVENT ================= -->
+<section class="event" id="event">
+  <div class="wrap">
+    <div class="event__grid">
+      <div class="posters rv">
+        <a class="poster" href="public/events/poster-bootcamp.jpg" target="_blank" rel="noopener" aria-label="View the Hands-on Coding and Robotics Bootcamp poster">
+          <img src="public/events/poster-bootcamp.jpg" alt="Poster: Hands-on Coding and Robotics Bootcamp 2026, August 10 to 14, Maktaba Kuu Building, Upper Hill" loading="lazy" data-ph="public/events/poster-bootcamp.jpg">
+        </a>
+        <a class="poster" href="public/events/poster-summer.jpg" target="_blank" rel="noopener" aria-label="View the Summer Coding Bootcamp poster">
+          <img src="public/events/poster-summer.jpg" alt="Poster: Summer Coding and Bootcamp 2026 showing the four camp tracks and registration details" loading="lazy" data-ph="public/events/poster-summer.jpg">
+        </a>
+      </div>
+
+      <div class="rv">
+        <p class="eyebrow eyebrow--light"><span class="stack stack--light" aria-hidden="true"><i></i><i></i><i></i></span> Next intake &middot; limited slots</p>
+        <h2>August Holiday <em>Coding &amp; Robotics</em> Camp</h2>
+        <p class="lede lede--light">Five full days of building. Your child moves from an idea on paper to a working robot, game or website, then presents it at the Friday showcase. Robotics kits and printed workbooks are provided.</p>
+
+        <dl class="meta">
+          <div><dt>Dates</dt><dd>10 &ndash; 14 August 2026</dd></div>
+          <div><dt>Time</dt><dd>9:00am to 4:00pm daily</dd></div>
+          <div><dt>Venue</dt><dd>Maktaba Kuu Building, Upper Hill</dd></div>
+          <div><dt>Ages</dt><dd>8 to 17 years</dd></div>
+        </dl>
+
+        <ul class="tracks">
+          <li><b>Coding fundamentals</b><span>Scratch, game dev, web design, app dev</span></li>
+          <li><b>Robotics &amp; STEM</b><span>Robot building, sensors, programming challenges</span></li>
+          <li><b>Digital creativity</b><span>Design, animation, storytelling, digital innovation</span></li>
+          <li><b>Innovation &amp; problem solving</b><span>Design thinking, team projects, showcase</span></li>
+        </ul>
+
+        <div class="event__cta">
+          <a class="btn btn--primary" href="https://forms.gle/gz8a9Ysnc6x3cbaB7" target="_blank" rel="noopener">Reserve your child's slot</a>
+          <div class="countdown" id="countdown" aria-label="Time remaining until the camp begins"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="section" id="about">
+  <div class="wrap about__grid">
+    <div class="collage rv">
+      <figure><img src="public/photos/arduino-hands.jpg" alt="A student pointing at a lit LED on an Arduino board during a robotics class" loading="lazy" data-ph="public/photos/arduino-hands.jpg"></figure>
+      <figure><img src="public/photos/laptop-board.jpg" alt="A microcontroller board wired to a laptop on a workbench" loading="lazy" data-ph="public/photos/laptop-board.jpg"></figure>
+      <figure><img src="public/photos/board-closeup.jpg" alt="Close-up of a circuit board and jumper wires mid-build" loading="lazy" data-ph="public/photos/board-closeup.jpg"></figure>
+    </div>
+    <div class="rv">
+      <p class="eyebrow"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> About JengaCode</p>
+      <h2 class="h-sec">A place where children build, not just watch</h2>
+      <p class="lede">JengaCode runs practical digital skills programs for children and teens across Nairobi. We work with parents, schools, churches and community organisations to deliver hands-on learning in coding, robotics and digital literacy.</p>
+      <p class="pullquote">Turning tech curiosity into <em>creative confidence</em></p>
+      <ul class="about__points">
+        <li><span><b>What we teach.</b> Scratch, Python, robotics, artificial intelligence, web and game development, and the digital literacy that holds it all together.</span></li>
+        <li><span><b>How we teach.</b> Small groups, one project at a time, with printed step-by-step workbooks the child keeps.</span></li>
+        <li><span><b>Why it matters.</b> Coding teaches a child to break a big problem into small ones and keep going after something fails. That habit outlasts any single language.</span></li>
+        <li><span><b>Where we work.</b> Holiday camps and weekend classes, plus in-school and after-school programs aligned with Kenya's Competency Based Curriculum.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROGRAMS ================= -->
+<section class="section" id="programs" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow rv"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> Our programs</p>
+    <h2 class="h-sec rv">Seven pathways. One habit: build something real.</h2>
+    <p class="lede rv">Children start where they are and move up as they are ready. Every pathway ends with a finished project your child can show you.</p>
+
+    <div class="cards">
+      <article class="card rv" style="--c:var(--violet-500)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M4 6h7v5H4zM13 13h7v5h-7zM7.5 11v2M16.5 11v2M4 13h7v5H4z"/></svg></div>
+        <h3>Scratch programming</h3>
+        <p>Drag-and-drop blocks that behave like real code. Children build animated stories and their first playable game in the first few sessions.</p>
+        <span class="age">Ages 8 to 11</span>
+      </article>
+
+      <article class="card rv" style="--c:var(--magenta)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16"/></svg></div>
+        <h3>Python</h3>
+        <p>Their first typed language. Quizzes, calculators and small apps, written line by line so they can read their own code back to you.</p>
+        <span class="age">Ages 11 to 17</span>
+      </article>
+
+      <article class="card rv" style="--c:var(--orange)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 4v4M9 13h.01M15 13h.01M2 12h3M19 12h3"/></svg></div>
+        <h3>Robotics</h3>
+        <p>Build a robot that moves, senses and reacts. Motors, sensors and the code that drives them, tested against real challenges.</p>
+        <span class="age">Ages 9 to 17</span>
+      </article>
+
+      <article class="card rv" style="--c:var(--violet-700)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg></div>
+        <h3>Artificial intelligence</h3>
+        <p>How machines learn. Children train a simple image or sound model, then find out exactly where and why it gets things wrong.</p>
+        <span class="age">Ages 12 to 17</span>
+      </article>
+
+      <article class="card rv" style="--c:var(--gold)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M9.5 6.5h.01M8 13l-2 2 2 2M13 13l2 2-2 2"/></svg></div>
+        <h3>Web development</h3>
+        <p>HTML and CSS to a page that is genuinely theirs. Every child finishes with a live site they can open on your phone.</p>
+        <span class="age">Ages 10 to 17</span>
+      </article>
+
+      <article class="card rv" style="--c:#4ECB71">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 11v3M5.5 12.5h3M16 12h.01M18.5 14h.01"/></svg></div>
+        <h3>Game development</h3>
+        <p>Characters, levels, scoring and sound. From a sketch on paper to a game their friends can actually play and lose at.</p>
+        <span class="age">Ages 9 to 17</span>
+      </article>
+
+      <article class="card rv" style="--c:var(--magenta)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M4 4h10l6 6v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v6h6M8 14h7M8 17h5"/></svg></div>
+        <h3>Digital literacy</h3>
+        <p>Typing, files, research and staying safe online. The groundwork every other skill sits on, taught properly rather than assumed.</p>
+        <span class="age">Ages 8 to 13</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY PARENTS ================= -->
+<section class="section why">
+  <div class="wrap">
+    <p class="eyebrow rv"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> Why parents choose us</p>
+    <h2 class="h-sec rv">What you are actually paying for</h2>
+
+    <div class="why__grid">
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Project based learning</h3><p>No copying slides. Children learn by building something, breaking it, and fixing it.</p></div>
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Small class sizes</h3><p>Groups stay small enough that an instructor reaches every child several times a session.</p></div>
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Experienced instructors</h3><p>Trainers who work in tech and know how to explain it to an eleven year old.</p></div>
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Safe, supportive rooms</h3><p>Supervised venues, clear drop-off and pick-up times, and a no-mockery rule when code fails.</p></div>
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Creativity and critical thinking</h3><p>Children choose what to build. The thinking behind the choice matters as much as the code.</p></div>
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Future ready skills</h3><p>Programming, robotics and AI literacy, aligned with the Competency Based Curriculum.</p></div>
+      <div class="why__item rv"><h3><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></span>Certificate of participation</h3><p>Every child who completes a camp or term receives a certificate and keeps their workbook.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="section" id="gallery">
+  <div class="wrap">
+    <p class="eyebrow rv"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> Gallery</p>
+    <h2 class="h-sec rv">Real sessions, real students</h2>
+    <p class="lede rv">Photographs from our camps, robotics workshops and school programs. Tap any photo to view it full size.</p>
+
+    <div class="masonry" id="masonry"><!-- filled from the GALLERY list in the script below --></div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lightbox__close" id="lbClose" aria-label="Close photo viewer">&times;</button>
+  <button class="lightbox__nav prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lightbox__nav next" id="lbNext" aria-label="Next photo">&#8250;</button>
+</div>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="section why" id="testimonials">
+  <div class="wrap">
+    <p class="eyebrow rv"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> Testimonials</p>
+    <h2 class="h-sec rv">What parents and students say</h2>
+
+    <!-- ==========================================================
+         REPLACE THE THREE QUOTES BELOW WITH REAL FEEDBACK.
+         Delete the <span class="draft"> tag from each card once the
+         quote, name and role are genuine. Add more cards by copying
+         one <article class="quote"> block.
+         ========================================================== -->
+    <div class="quotes">
+      <article class="quote rv">
+        <span class="draft">Sample</span>
+        <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+        <p>Placeholder quote from a parent about what changed for their child after the camp. Two or three sentences works best.</p>
+        <footer><b>Parent name</b><span>Parent of a student, age 10</span></footer>
+      </article>
+      <article class="quote rv">
+        <span class="draft">Sample</span>
+        <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+        <p>Placeholder quote from a student describing the project they built and what they enjoyed most.</p>
+        <footer><b>Student name</b><span>Student, age 13</span></footer>
+      </article>
+      <article class="quote rv">
+        <span class="draft">Sample</span>
+        <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+        <p>Placeholder quote from a school or church partner about running a JengaCode program with their group.</p>
+        <footer><b>Partner name</b><span>Role, organisation</span></footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BROCHURE ================= -->
+<section class="section brochure" id="brochure">
+  <div class="wrap brochure__grid">
+    <div class="rv">
+      <p class="eyebrow eyebrow--light"><span class="stack stack--light" aria-hidden="true"><i></i><i></i><i></i></span> Brochure</p>
+      <h2 class="h-sec">Everything, on two pages</h2>
+      <p class="lede lede--light">Our official brochure covers the programs, the age groups, how school and church bookings work, and how to reach us. Read it here or save a copy to share.</p>
+      <div style="margin-top:30px">
+        <a class="btn btn--light" href="public/brochure/jengacode-brochure.pdf" download>Download brochure</a>
+        <a class="btn btn--outline-light" href="public/brochure/jengacode-brochure.pdf" target="_blank" rel="noopener">Open full screen</a>
+      </div>
+    </div>
+    <div class="brochure__frame rv">
+      <a href="public/brochure/page-1.jpg" target="_blank" rel="noopener">
+        <img src="public/brochure/page-1.jpg" alt="JengaCode brochure, outside spread: about us, contact details and website" loading="lazy" data-ph="public/brochure/page-1.jpg">
+      </a>
+      <a href="public/brochure/page-2.jpg" target="_blank" rel="noopener">
+        <img src="public/brochure/page-2.jpg" alt="JengaCode brochure, inside spread: what we offer, why choose us and how to book a program" loading="lazy" data-ph="public/brochure/page-2.jpg">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <p class="eyebrow rv"><span class="stack" aria-hidden="true"><i></i><i></i><i></i></span> Questions parents ask</p>
+    <h2 class="h-sec rv">Before you register</h2>
+
+    <div class="faq__list" id="faq">
+      <div class="faq__item">
+        <h3><button class="faq__q" aria-expanded="false">What age groups do you teach?</button></h3>
+        <div class="faq__a"><div><p>Children aged 8 to 17. We group them by age and experience so an eight year old starting Scratch and a fifteen year old writing Python are never in the same exercise.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <h3><button class="faq__q" aria-expanded="false">Does my child need coding experience?</button></h3>
+        <div class="faq__a"><div><p>No. Most of our students start with none at all. Beginners start on the fundamentals track, and children who have coded before are placed where they will still be stretched.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <h3><button class="faq__q" aria-expanded="false">Does my child need to bring a laptop?</button></h3>
+        <div class="faq__a"><div><p>If you have one, bring it, as children learn faster on a machine they already know. If you do not, tell us when you register and we will assign a device. Robotics kits and printed workbooks are always provided.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <h3><button class="faq__q" aria-expanded="false">How do I register?</button></h3>
+        <div class="faq__a"><div><p>Fill in the registration form on this page, which takes about two minutes. We confirm your child's slot by phone or WhatsApp and send you the joining details. You can also call or WhatsApp us directly on 0740 135 389.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <h3><button class="faq__q" aria-expanded="false">Where are classes held?</button></h3>
+        <div class="faq__a"><div><p>The August holiday camp runs at the Maktaba Kuu Building, Upper Hill, Nairobi. We also run programs inside partner schools, churches and community centres. Get in touch if you would like a program hosted at your school.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <h3><button class="faq__q" aria-expanded="false">What actually happens during a holiday camp?</button></h3>
+        <div class="faq__a"><div><p>Five days, 9am to 4pm. Mornings cover a new skill, afternoons are spent building with it. Children rotate through coding, robotics, digital creativity and problem solving, then present their finished project at the Friday showcase and receive a certificate.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section contact" id="contact">
+  <div class="wrap contact__grid">
+    <div class="rv">
+      <p class="eyebrow eyebrow--light"><span class="stack stack--light" aria-hidden="true"><i></i><i></i><i></i></span> Contact</p>
+      <h2 class="h-sec">Talk to us before you decide</h2>
+      <p class="lede lede--light">Call or WhatsApp us and we will walk you through the programs, the age fit and the dates. No form needed to ask a question.</p>
+
+      <ul class="contact__rows">
+        <li><a href="tel:+254740135389"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg></span><span><small>Call us</small><b>0740 135 389</b></span></a></li>
+        <li><a href="tel:+254792696592"><span class="ico"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg></span><span><small>Call us</small><b>+254 792 696 592</b></span></a></li>
+        <li><a href="https://wa.me/254740135389?text=Hello%20JengaCode%2C%20I%20would%20like%20to%20ask%20about%20the%20August%20holiday%20camp." target="_blank" rel="noopener"><span class="ico ico--wa"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.6-4.7c-.4-.6-.9-1.5-.9-2.4 0-.9.5-1.4.7-1.6.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .5.4l.8 1.8c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6a8 8 0 0 0 3.5 3c.3.1.5.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.3.1.4.2.4.4z"/></svg></span><span><small>WhatsApp</small><b>Chat with us</b></span></a></li>
+        <li><a href="https://wa.me/254792696592?text=Hello%20JengaCode%2C%20I%20would%20like%20to%20register%20my%20child." target="_blank" rel="noopener"><span class="ico ico--wa"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.6-4.7c-.4-.6-.9-1.5-.9-2.4 0-.9.5-1.4.7-1.6.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .5.4l.8 1.8c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6a8 8 0 0 0 3.5 3c.3.1.5.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.3.1.4.2.4.4z"/></svg></span><span><small>WhatsApp</small><b>Register by chat</b></span></a></li>
+      </ul>
+    </div>
+
+    <div class="contact__cta rv">
+      <h3>Register for the August camp</h3>
+      <p>Slots are limited and filled in the order they are confirmed. The form takes about two minutes and you can register more than one child on it.</p>
+      <a class="btn btn--primary" href="https://forms.gle/gz8a9Ysnc6x3cbaB7" target="_blank" rel="noopener" style="width:100%">Register now</a>
+      <p style="margin-top:22px;font-size:.88rem">Venue: Maktaba Kuu Building, Upper Hill, Nairobi<br>Email: <a href="mailto:info@jengacode.co.ke" style="color:var(--gold)">info@jengacode.co.ke</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="ftr">
+  <div class="wrap ftr__in">
+    <p style="display:flex;align-items:center;gap:14px"><img src="public/brand/logo-full.png" alt="JengaCode" style="height:54px;width:auto" data-ph="public/brand/logo-full.png"><span>&copy; <span id="yr"></span> JengaCode.<br>Coding and robotics for children, Nairobi.</span></p>
+    <nav aria-label="Footer">
+      <a href="#programs">Programs</a>
+      <a href="#event">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#brochure">Brochure</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <a class="btn btn--ghost btn--sm" href="tel:+254740135389">Call us</a>
+  <a class="btn btn--primary btn--sm" href="https://forms.gle/gz8a9Ysnc6x3cbaB7" target="_blank" rel="noopener">Register now</a>
+</div>
+
+<!-- ================= STRUCTURED DATA (SEO) ================= -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"EducationalOrganization",
+      "@id":"https://www.jengacode.co.ke/#org",
+      "name":"JengaCode",
+      "url":"https://www.jengacode.co.ke/",
+      "logo":"https://www.jengacode.co.ke/brand/logo-full.png",
+      "email":"info@jengacode.co.ke",
+      "telephone":"+254740135389",
+      "description":"Coding, robotics, AI and digital skills programs for children aged 8 to 17 in Nairobi, Kenya.",
+      "address":{"@type":"PostalAddress","streetAddress":"Maktaba Kuu Building, Upper Hill","addressLocality":"Nairobi","addressCountry":"KE"}
+    },
+    {
+      "@type":"Event",
+      "name":"August Holiday Coding & Robotics Camp 2026",
+      "startDate":"2026-08-10T09:00:00+03:00",
+      "endDate":"2026-08-14T16:00:00+03:00",
+      "eventStatus":"https://schema.org/EventScheduled",
+      "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode",
+      "location":{"@type":"Place","name":"Maktaba Kuu Building","address":{"@type":"PostalAddress","streetAddress":"Maktaba Kuu Building, Upper Hill","addressLocality":"Nairobi","addressCountry":"KE"}},
+      "organizer":{"@id":"https://www.jengacode.co.ke/#org"},
+      "description":"Five day hands-on coding and robotics camp for children aged 8 to 17, covering coding fundamentals, robotics and STEM, digital creativity, and innovation and problem solving.",
+      "offers":{"@type":"Offer","url":"https://forms.gle/gz8a9Ysnc6x3cbaB7","availability":"https://schema.org/InStock"}
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"What age groups do you teach?","acceptedAnswer":{"@type":"Answer","text":"Children aged 8 to 17, grouped by age and experience."}},
+        {"@type":"Question","name":"Does my child need coding experience?","acceptedAnswer":{"@type":"Answer","text":"No. Most students start with no experience and begin on the fundamentals track."}},
+        {"@type":"Question","name":"Does my child need to bring a laptop?","acceptedAnswer":{"@type":"Answer","text":"Bring one if you have it. If not, tell us at registration and a device will be assigned. Robotics kits and printed workbooks are provided."}},
+        {"@type":"Question","name":"How do I register?","acceptedAnswer":{"@type":"Answer","text":"Complete the online registration form, or call and WhatsApp 0740135389. We confirm the slot and send joining details."}},
+        {"@type":"Question","name":"Where are classes held?","acceptedAnswer":{"@type":"Answer","text":"The August holiday camp runs at the Maktaba Kuu Building, Upper Hill, Nairobi. Programs also run inside partner schools, churches and community centres."}},
+        {"@type":"Question","name":"What happens during a holiday camp?","acceptedAnswer":{"@type":"Answer","text":"Five days from 9am to 4pm. Mornings introduce a skill, afternoons are spent building. Children present projects at the Friday showcase and receive certificates."}}
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+/* =========================================================
+   GALLERY LIST
+   Drop more photos into public/photos/ and add them to this list.
+   Keep the captions accurate: they are used as alt text.
+   ========================================================= */
+const GALLERY = [
+  { src:'public/photos/student-lab.jpg',    alt:'A JengaCode student building an electronics project beside his laptop in the computer lab' },
+  { src:'public/photos/arduino-hands.jpg',  alt:'A student pointing at a lit LED on an Arduino board during a robotics class' },
+  { src:'public/photos/code-screen.jpg',    alt:'A laptop showing code written by a student during a JengaCode session' },
+  { src:'public/photos/laptop-board.jpg',   alt:'A microcontroller board wired to a laptop on a workbench' },
+  { src:'public/photos/board-closeup.jpg',  alt:'Close-up of a circuit board and jumper wires mid-build' },
+  { src:'public/events/poster-bootcamp.jpg',alt:'Poster for the Hands-on Coding and Robotics Bootcamp 2026' },
+  { src:'public/events/poster-summer.jpg',  alt:'Poster for the Summer Coding and Bootcamp 2026' }
+];
+
+/* ---------- render gallery ---------- */
+const masonry = document.getElementById('masonry');
+GALLERY.forEach((item, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.setAttribute('aria-label', 'View photo: ' + item.alt);
+  b.dataset.index = i;
+  const img = document.createElement('img');
+  img.src = item.src; img.alt = item.alt; img.loading = 'lazy';
+  img.dataset.ph = item.src; img.dataset.note = 'Gallery photo ' + (i + 1);
+  b.appendChild(img);
+  masonry.appendChild(b);
+});
+
+/* ---------- missing-asset placeholders ----------
+   If a photo file is not there yet, show a labelled slot instead of a
+   broken image so it is obvious which file goes where. Once every file
+   is in place this code never runs.                                   */
+function placeholder(img){
+  const box = document.createElement('div');
+  box.className = 'ph';
+  box.innerHTML = '<small>Add photo</small><code>' + (img.dataset.ph || img.src) + '</code>' +
+                  (img.dataset.note ? '<small style="opacity:.5">' + img.dataset.note + '</small>' : '');
+  img.replaceWith(box);
+}
+document.querySelectorAll('img[data-ph]').forEach(img => {
+  if (img.complete && img.naturalWidth === 0) placeholder(img);
+  img.addEventListener('error', () => placeholder(img));
+});
+
+/* ---------- logo: fall back to the recreated mark if the file is missing ---------- */
+(function(){
+  const img  = document.getElementById('brandImg');
+  const mark = document.getElementById('brandMark');
+  const done = () => { mark.hidden = true; };
+  const fail = () => { img.remove(); mark.hidden = false; };
+  img.addEventListener('load', done);
+  img.addEventListener('error', fail);
+  if (img.complete) (img.naturalWidth > 0 ? done() : fail());
+})();
+
+/* ---------- header state + mobile nav ---------- */
+const hdr = document.querySelector('.hdr');
+const onScroll = () => hdr.classList.toggle('is-stuck', window.scrollY > 10);
+onScroll(); addEventListener('scroll', onScroll, { passive:true });
+
+const burger = document.getElementById('burger'), nav = document.getElementById('nav');
+burger.addEventListener('click', () => {
+  const open = nav.classList.toggle('is-open');
+  burger.setAttribute('aria-expanded', String(open));
+  burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+});
+nav.addEventListener('click', e => {
+  if (e.target.tagName === 'A') {
+    nav.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+});
+
+/* ---------- countdown to the camp ---------- */
+const START = new Date('2026-08-10T09:00:00+03:00');
+const cd = document.getElementById('countdown');
+function tick(){
+  const diff = START - new Date();
+  if (diff <= 0){ cd.innerHTML = '<div style="min-width:auto;padding:10px 16px"><b style="font-size:1rem">Camp in progress</b></div>'; return; }
+  const d = Math.floor(diff/864e5), h = Math.floor(diff/36e5)%24, m = Math.floor(diff/6e4)%60;
+  cd.innerHTML =
+    '<div><b>' + d + '</b><span>days</span></div>' +
+    '<div><b>' + h + '</b><span>hrs</span></div>' +
+    '<div><b>' + m + '</b><span>min</span></div>';
+}
+tick(); setInterval(tick, 30000);
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq__q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq__item');
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.faq__item').forEach(other => {
+      other.classList.remove('is-open');
+      other.querySelector('.faq__q').setAttribute('aria-expanded','false');
+    });
+    if (!open){ item.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); }
+  });
+});
+
+/* ---------- lightbox ---------- */
+const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+let idx = 0;
+function show(i){
+  idx = (i + GALLERY.length) % GALLERY.length;
+  lbImg.src = GALLERY[idx].src;
+  lbImg.alt = GALLERY[idx].alt;
+}
+function openLb(i){ show(i); lb.classList.add('is-open'); document.body.style.overflow = 'hidden'; document.getElementById('lbClose').focus(); }
+function closeLb(){ lb.classList.remove('is-open'); document.body.style.overflow = ''; }
+masonry.addEventListener('click', e => {
+  const b = e.target.closest('button[data-index]');
+  if (b) openLb(Number(b.dataset.index));
+});
+document.getElementById('lbClose').addEventListener('click', closeLb);
+document.getElementById('lbPrev').addEventListener('click', () => show(idx - 1));
+document.getElementById('lbNext').addEventListener('click', () => show(idx + 1));
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+addEventListener('keydown', e => {
+  if (!lb.classList.contains('is-open')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') show(idx - 1);
+  if (e.key === 'ArrowRight') show(idx + 1);
+});
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { threshold:0.12, rootMargin:'0px 0px -40px' });
+document.querySelectorAll('.rv').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 60 + 'ms';
+  io.observe(el);
+});
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
